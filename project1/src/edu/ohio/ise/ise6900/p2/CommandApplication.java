@@ -112,7 +112,7 @@ public class CommandApplication {
 					int resultInt = 0;
 					switch (choice) {
 						case 1:
-							result = sin(myArg * PI/180);
+							result = sin(Math.toRadians(myArg));
 
 							break;
 						case 2:

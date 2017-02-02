@@ -14,7 +14,17 @@ public class MfgSystem extends MfgObject {
 	}
 	
 	public void addJob(Job j) throws AlreadyMemberException {
+		if (jobs.contains(j)) {
+			throw new AlreadyMemberException("Job " + j + " is alreaady in the mfg system " + this);
+		}
 		jobs.add(j);
+	}
+
+	public void printJobes() {
+		for (Job j : jobs) {
+			System.out.println(j.toString());
+		}
+		
 	}
 
 }

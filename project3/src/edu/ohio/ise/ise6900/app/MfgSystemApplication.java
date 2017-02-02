@@ -9,7 +9,7 @@ import edu.ohio.ise.ise6900.model.*;
 
 
 public class MfgSystemApplication {
-	enum Commands { JOB, MACHINE, ACTIVITY, EXIT, QUIT}
+	enum Commands { JOB, MACHINE, ACTIVITY, JOBS, EXIT, QUIT}
 	static HashMap<String, Commands> commands;
 	static final int OK = 0;
 	static String menu;
@@ -23,12 +23,12 @@ public class MfgSystemApplication {
 //		commands.put("delete", DELETE);
 //		commands.put("printout", PRINTOUT);
 //		commands.put("graph", GRAPH);
-//		commands.put("nodes", NODES);
+		commands.put("jobs", Commands.JOBS);
 //		commands.put("arcs", ARCS);
 		commands.put("exit", Commands.EXIT);
 		commands.put("quit", Commands.QUIT);
 		
-		menu = "Options : \n\t" + commands.keySet().toString() + "\nEnter the command:->";
+		menu = "\nOptions : \n\t" + commands.keySet().toString() + "\nEnter the command:->";
 	}
 
 	public static void main(String[] args) {
@@ -67,13 +67,16 @@ public class MfgSystemApplication {
 					// make node
 					try {
 						String jobName = tokenizer.nextToken();
-						ms.addJob(new Job (jobName));
+						int batchSize = Integer.parseInt(tokenizer.nextToken());
+						ms.addJob(new Job (jobName, batchSize));
 					} catch (AlreadyMemberException ex) {
 						System.err.println (ex.getMessage());
+					} catch (NumberFormatException nfe) {
+						System.err.println("Batch size needs to be an integer!");
 					}
-//					 catch (NoSuchElementException e) {
-//						System.err.println ("No node parameter specified");
-//					}
+					 catch (NoSuchElementException e) {
+						System.err.println ("Not enough job parameters specified");
+					}
 					break;
 				}
 //				case DIR_ARC: {
@@ -153,10 +156,10 @@ public class MfgSystemApplication {
 //					this.printout ();
 //					break;
 //				}
-//				case NODES: {			
-//					this.printNodes();
-//					break;
-//				}
+				case JOBS: {			
+					ms.printJobes();
+					break;
+				}
 //				case ARCS: {
 //					System.out.println(this.printArcs());
 //					break;
