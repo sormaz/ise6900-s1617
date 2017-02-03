@@ -1,6 +1,6 @@
 package edu.ohio.ise.ise6900.app;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -9,20 +9,20 @@ import edu.ohio.ise.ise6900.model.*;
 
 public class MfgSystemApplication {
 	enum Command {
-		JOB, MACHINE, ACTIVITY, JOBS, MACHINES, ACTIVITIES, EXIT, QUIT
+		JOB, MACHINE, ACTIVITY, JOBS, MACHINES, ACTIVITIES, DELETE, PRINTOUT, EXIT, QUIT
 	}
 
-	static HashMap<String, Command> commands;
+	static SortedMap<String, Command> commands;
 	static final int OK = 0;
 	static String menu;
 
 	static {
-		commands = new HashMap<String, Command>();
+		commands = new TreeMap<String, Command>();
 		commands.put("job", Command.JOB);
 		commands.put("machine", Command.MACHINE);
 		commands.put("activity", Command.ACTIVITY);
-		// commands.put("delete", DELETE);
-		// commands.put("printout", PRINTOUT);
+		 commands.put("delete", Command.DELETE);
+		 commands.put("printout", Command.PRINTOUT);
 		// commands.put("graph", GRAPH);
 		commands.put("jobs", Command.JOBS);
 		commands.put("machines", Command.MACHINES);
