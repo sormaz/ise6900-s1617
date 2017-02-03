@@ -9,8 +9,13 @@ import edu.ohio.ise.ise6900.model.*;
 
 public class MfgSystemApplication {
 	enum Command {
-		JOB, MACHINE, ACTIVITY, JOBS, MACHINES, ACTIVITIES, DELETE, PRINTOUT, EXIT, QUIT
-	}
+		JOB, MACHINE, ACTIVITY, FEATURE, STATE, // to create objects
+		ACTIVITIES, FEATURES, STATES,           // to report collections for a given object
+		DELETE, PRINTOUT, 						// to delete or printout an individual object
+		JOBS, MACHINES, SYSTEM,					// to report system state and collections
+		RECTANGLE, TRIANGLE, 					// to make draw objects
+		EXIT, QUIT								// to exit the application
+	} 
 
 	static SortedMap<String, Command> commands;
 	static final int OK = 0;
@@ -21,13 +26,25 @@ public class MfgSystemApplication {
 		commands.put("job", Command.JOB);
 		commands.put("machine", Command.MACHINE);
 		commands.put("activity", Command.ACTIVITY);
-		 commands.put("delete", Command.DELETE);
-		 commands.put("printout", Command.PRINTOUT);
-		// commands.put("graph", GRAPH);
+		commands.put("feature", Command.FEATURE);
+		commands.put("machine-state", Command.STATE);
+		
+		commands.put("activities", Command.ACTIVITIES);
+		commands.put("features", Command.FEATURES);
+		commands.put("states", Command.STATES);
+
+		commands.put("delete", Command.DELETE);
+		commands.put("printout", Command.PRINTOUT);
+
 		commands.put("jobs", Command.JOBS);
 		commands.put("machines", Command.MACHINES);
+		commands.put("system", Command.SYSTEM);
+		
+		commands.put("rectangle", Command.RECTANGLE);
+		commands.put("triangle", Command.TRIANGLE);
+		
 		commands.put("exit", Command.EXIT);
-		commands.put("quit", Command.QUIT);
+		commands.put("quit", Command.EXIT);
 
 		menu = "\nOptions : \n\t" + commands.keySet().toString() + "\nEnter the command:->";
 	}
@@ -93,70 +110,43 @@ public class MfgSystemApplication {
 					}
 					break;
 				}
-				// case UNDIR_ARC: {
-				// // make arc
-				// try {
-				// String user1 = tokenizer.nextToken();
-				// String user2 = tokenizer.nextToken();
-				// try {
-				// Node n = this.findNode(user1);
-				// Node n2 = this.findNode(user2);
-				// this.addUndirectedArc(user1, user2);
-				//// n.addUndirectedArc (this.findNode (user2));
-				// }
-				// catch (GraphException e) {
-				// System.err.println
-				// (e.getMessage());
-				// continue;
-				// }
-				// }
-				// catch (NoSuchElementException e) {
-				// System.err.println
-				// ("Two node parameter objects should be specified");
-				// }
-				// break;
-				// }
-				// case DELETE: {
-				// String arg1 = tokenizer.nextToken();
-				// if (tokenizer.hasMoreTokens()) {
-				// String arg2 = tokenizer.nextToken();
-				// try {
-				// deleteObjectArc(arg1, arg2);
-				// }
-				// catch (GraphException e) {
-				// System.err.println(e.getMessage());
-				// }
-				// }
-				// else {
-				// // delete node
-				//
-				// if (!this.deleteObject(arg1)) {
-				// System.err.println ("Your parameter is not in the graph");
-				// }
-				// }
-				// break;
-				// }
-				// case PRINTOUT: {
-				// // printout chosen object
-				// break;
-				// }
-				// case GRAPH: {
-				// // printout the graph
-				// this.printout ();
-				// break;
-				// }
+				 case FEATURE: {
+					 String featureName = tokenizer.nextToken();
+					 String jobName = tokenizer.nextToken();
+					 System.err.println("The code for command " + commandString + " is not completed yet");
+				 break;
+				 }
+				 case DELETE: {
+					 System.err.println("The code for command " + commandString + " is not implemeneted yet");
+				 break;
+				 }
+				 case PRINTOUT: {
+					 System.err.println("The code for command " + commandString + " is not implemeneted yet");
+				 break;
+				 }
+
+				case ACTIVITIES: 
+				case ACTIVITY:
+				case STATE:
+				case FEATURES:
+				case SYSTEM:
+				case RECTANGLE:
+				case TRIANGLE:
+				 {
+					 System.err.println("Command " + commandString + " is not implemeneted yet");
+				 break;
+				 }
 				case JOBS: {
-					ms.printJobes();
+					ms.printJobs();
 					break;
 				}
-				// case ARCS: {
-				// System.out.println(this.printArcs());
-				// break;
-				// }
-				case EXIT:
-				case QUIT: {
+				 case MACHINES: {
+				 ms.printMachines();
+				 break;
+				 }
+				case EXIT: {
 					// exit the program
-					System.exit(OK);
+					return;
 				}
 
 				}

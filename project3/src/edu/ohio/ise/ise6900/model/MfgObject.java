@@ -11,5 +11,9 @@ public abstract class MfgObject {
 		
 		return name;
 	}
+	
+	public String toString() {
+		return name;
+	}
 
 }
