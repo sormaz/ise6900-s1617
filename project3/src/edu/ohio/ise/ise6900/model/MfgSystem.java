@@ -27,4 +27,12 @@ public class MfgSystem extends MfgObject {
 		
 	}
 
+	public void addMachine(Machine machine) throws AlreadyMemberException {
+		if (machines.contains(machine)) {
+			throw new AlreadyMemberException("MAchine " + machine + " is alreaady in the mfg system " + this);
+		}
+		machines.add(machine);
+		
+	}
+
 }

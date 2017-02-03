@@ -8,5 +8,9 @@ public class Job extends MfgObject {
 		super(n);
 		this.batchSize = batchSize;
 	}
+	
+	public String toString () {
+		return "Job " + getName() + ", batch size " + batchSize;
+	}
 
 }
