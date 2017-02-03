@@ -31,7 +31,7 @@ public class MfgSystemApplication {
 		menu = "\nOptions : \n\t" + commands.keySet().toString() + "\nEnter the command:->";
 	}
 
-	public static void main(String[] args) {
+	public  void run() {
 		Scanner sc = new Scanner (System.in);
 		StringTokenizer tokenizer; 
 		MfgSystem ms = new MfgSystem("test");
@@ -166,8 +166,8 @@ public class MfgSystemApplication {
 //				}
 				case EXIT:
 				case QUIT: {
-					// exit the program
-					System.exit(OK);
+					// exit the method
+					return;
 				}
 					
 			}
@@ -181,6 +181,11 @@ public class MfgSystemApplication {
 //			e.printStackTrace();
 		}	
 
+	}
+	
+	public static void main(String[] args) {
+		MfgSystemApplication msa = new MfgSystemApplication ();
+		msa.run();
 	}
 
 }
