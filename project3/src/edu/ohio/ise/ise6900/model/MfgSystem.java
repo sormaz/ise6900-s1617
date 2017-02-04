@@ -20,9 +20,24 @@ public class MfgSystem extends MfgObject {
 		jobs.add(j);
 	}
 
-	public void printJobes() {
+	public void printJobs() {
 		for (Job j : jobs) {
 			System.out.println(j.toString());
+		}
+		
+	}
+
+	public void addMachine(Machine machine) throws AlreadyMemberException {
+		if (machines.contains(machine)) {
+			throw new AlreadyMemberException("MAchine " + machine + " is alreaady in the mfg system " + this);
+		}
+		machines.add(machine);
+		
+	}
+
+	public void printMachines() {
+		for (Machine m : machines) {
+			System.out.println(m.toString());
 		}
 		
 	}
