@@ -12,10 +12,12 @@ public class Activity extends AbstractState {
 	}
 	
 	public String toString () {
-		return "Job " + job + " " + super.toString();
+		return "Job " + job.getName() + " " + super.toString();
 	}
 	public  StateOption state() {
 		return StateOption.BUSY;
 	}
+
+
 
 }
