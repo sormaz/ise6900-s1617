@@ -141,7 +141,7 @@ public class MfgSystemApplication {
 						MfgFeature f = j.findFeature(featureName);
 						Activity a = new Activity(m, j, start, end);
 						j.addActivity (a);
-						//						m.addState(a);
+						m.addState(a);
 					} catch (NumberFormatException e) {
 						System.err.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {

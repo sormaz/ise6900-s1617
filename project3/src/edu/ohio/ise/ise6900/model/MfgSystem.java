@@ -16,7 +16,7 @@ public class MfgSystem extends MfgObject {
 	public void addJob(Job j) throws AlreadyMemberException {
 		try {
 			findJob(j.getName());
-			throw new AlreadyMemberException("Job " + j.getName() + " is alreaady in the mfg system " + this);
+			throw new AlreadyMemberException("Job " + j.getName() + " is alreaady in the mfg system " + this.getName());
 		} catch (UnknownObjectException e) {
 			jobs.put(j.getName(), j);		
 		}
