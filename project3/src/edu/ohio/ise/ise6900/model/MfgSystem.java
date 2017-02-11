@@ -60,7 +60,7 @@ public class MfgSystem extends MfgObject {
 	}
 	
 	public String toString () {
-		return "MfgSystem " + getName() + "contains " + jobs.size() + " Jobs and "  + machines.size() + " machines";
+		return "MfgSystem " + getName() + " contains " + jobs.size() + " Jobs and "  + machines.size() + " Machines";
 		
 	}
 	

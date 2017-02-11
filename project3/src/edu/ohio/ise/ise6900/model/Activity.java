@@ -18,6 +18,12 @@ public class Activity extends AbstractState {
 		return StateOption.BUSY;
 	}
 
+	@Override
+	public void printout() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }
