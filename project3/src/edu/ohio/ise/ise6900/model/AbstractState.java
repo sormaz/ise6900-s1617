@@ -1,6 +1,6 @@
 package edu.ohio.ise.ise6900.model;
 
-public abstract class AbstractState implements Comparable<AbstractState> {
+public abstract class AbstractState extends MfgObject implements Comparable<AbstractState> {
 	
 
 	private Machine machine;
@@ -8,7 +8,7 @@ public abstract class AbstractState implements Comparable<AbstractState> {
 	private double endTime;
 	
 	public AbstractState(Machine machine, double startTime, double endTime) {
-		super();
+		super("act");
 		this.machine = machine;
 		this.startTime = startTime;
 		this.endTime = endTime;
