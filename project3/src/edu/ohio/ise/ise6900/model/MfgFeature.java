@@ -9,5 +9,11 @@ public class MfgFeature extends MfgObject {
 		super(n);
 
 	}
+	
+	@Override
+	public void printout() {
+		throw new UnsupportedOperationException("Method printout() not implemented yet");
+		
+	}
 
 }

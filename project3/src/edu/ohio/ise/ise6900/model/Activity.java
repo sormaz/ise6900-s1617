@@ -1,3 +1,4 @@
+
 package edu.ohio.ise.ise6900.model;
 
 public class Activity extends AbstractState {
@@ -12,11 +13,19 @@ public class Activity extends AbstractState {
 	}
 	
 	public String toString () {
-		return "Job " + job + " " + super.toString();
+		return "Job " + job.getName() + " " + super.toString();
 	}
 	public  StateOption state() {
 		return StateOption.BUSY;
 	}
+
+	@Override
+	public void printout() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }
 
