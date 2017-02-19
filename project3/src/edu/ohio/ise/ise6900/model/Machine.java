@@ -1,6 +1,6 @@
 package edu.ohio.ise.ise6900.model;
 
-import java.util.Collection;
+import java.util.*;
 
 public class Machine extends MfgObject {
 	
@@ -8,13 +8,11 @@ public class Machine extends MfgObject {
 
 	public Machine(String n) {
 		super(n);
-		// TODO Auto-generated constructor stub
+		states = new TreeSet<AbstractState> ();
 	}
 
 	public void addState(AbstractState a) {
-		// TODO Auto-generated method stub
-		// verify existence of overlapping state
-		throw new UnsupportedOperationException("Method addState() not implemented yet");
+		states.add(a);
 	}
 	
 	@Override

@@ -72,4 +72,12 @@ public class Job extends MfgObject {
 		throw new UnsupportedOperationException("Method printout() not implemented yet");
 		
 	}
+
+	public void listFeatures() {
+		System.out.println("Features for job " + getName());
+		for (MfgFeature f : featureMap.values()) {
+			System.out.println("\t" + f.toString());
+		}
+		
+	}
 }

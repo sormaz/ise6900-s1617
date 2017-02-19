@@ -1,6 +1,7 @@
 
 package edu.ohio.ise.ise6900.app;
 
+import java.io.PrintStream;
 import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -25,8 +26,8 @@ public class MfgSystemApplication {
 	static {
 		commands = new TreeMap<String, Command>();
 		commands.put("job", Command.JOB);
-		commands.put("ish", Command.JOB);
-		commands.put("zadatak", Command.JOB);
+//		commands.put("ish", Command.JOB);
+//		commands.put("zadatak", Command.JOB);
 		commands.put("machine", Command.MACHINE);
 		commands.put("activity", Command.ACTIVITY);
 		commands.put("feature", Command.FEATURE);
@@ -56,10 +57,11 @@ public class MfgSystemApplication {
 		Scanner sc = new Scanner(System.in);
 		StringTokenizer tokenizer;
 		MfgSystem ms = new MfgSystem("test");
+		PrintStream errStream = System.err;
 		// String input;
 		try {
 			while (true) {
-				System.err.flush();
+				errStream.flush();
 				// System.out.print(menu);
 				System.out.print(menu);
 
@@ -68,15 +70,21 @@ public class MfgSystemApplication {
 
 				tokenizer = new StringTokenizer(input);
 				String commandString;
+				
+				// read command, if aempty line loop silently 
 				try {
 					commandString = tokenizer.nextToken();
 				} catch (Exception e1) {
-					System.err.println("No input specified");
+//					 errStream.println("No input specified");
+					continue;
+				}
+				// check for comment - starts with #, if comment line, loop silently 
+				if (commandString.startsWith("#")) {
 					continue;
 				}
 				Command commandObj = commands.get(commandString.toLowerCase());
 				if (commandObj == null) {
-					System.err.println("Your command '" + commandString + "' is not supported");
+					errStream.println("Your command '" + commandString + "' is not supported");
 					continue;
 				}
 				switch (commandObj) {
@@ -87,12 +95,13 @@ public class MfgSystemApplication {
 						int batchSize = Integer.parseInt(tokenizer.nextToken());
 						ms.addJob(new Job(jobName, batchSize));
 					} catch (AlreadyMemberException ex) {
-						System.err.println(ex.getMessage());
+						errStream.println(ex.getMessage());
 					} catch (NumberFormatException nfe) {
 
-						System.err.println("Batch size needs to be an integer!");
+						errStream.println("Batch size needs to be an integer!");
+
 					} catch (NoSuchElementException e) {
-						System.err.println("Not enough job parameters are specified");
+						errStream.println("Not enough job parameters are specified");
 					}
 					break;
 				}
@@ -104,10 +113,10 @@ public class MfgSystemApplication {
 						ms.addMachine(new Machine(machineName));
 						// p.addDirectedArc (this.findNode(child));
 					} catch (AlreadyMemberException ex) {
-						System.err.println(ex.getMessage());
+						errStream.println(ex.getMessage());
 					}
 					catch (NoSuchElementException e) {
-						System.err.println("No machine parameter is specified! ");
+						errStream.println("No machine parameter is specified! ");
 					}
 					break;
 				}
@@ -120,13 +129,13 @@ public class MfgSystemApplication {
 						job.addFeature(new MfgFeature(featureName));
 					} catch (AlreadyMemberException e) {
 						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					}
 					catch (NoSuchElementException e) {
-						System.err.println("Not enough parameters for feature are specified! ");
+						errStream.println("Not enough parameters for feature are specified! ");
 					} catch (UnknownObjectException e) {
 						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					}
 					break;
 				}
@@ -144,13 +153,16 @@ public class MfgSystemApplication {
 						m.addState(a);
 						j.addActivity (a);
 					} catch (NumberFormatException e) {
-						System.err.println("Start time and End time need to be numbers!");
+						errStream.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					} catch (AlreadyMemberException e) {
-						System.err.println(e.getMessage());
+
+						errStream.println(e.getMessage());
 					} catch (IllegalArgumentException e) {
-						System.err.println(e.getMessage());
+
+						errStream.println(e.getMessage());
+
 					}
 					break;
 				}
@@ -160,18 +172,18 @@ public class MfgSystemApplication {
 						Job j = ms.findJob(jobName);
 						j.listActivities();
 					} catch (UnknownObjectException e) {
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					} catch (NoSuchElementException e) {
-						System.err.println("Job for activities listing needs to be specified! ");
+						errStream.println("Job for activities listing needs to be specified! ");
 					}
 					break;
 				}
 				case DELETE: {
-					System.err.println("The code for command " + commandObj + " is not implemented yet");
+					errStream.println("The code for command " + commandObj + " is not implemented yet");
 					break;
 				}
 				case PRINTOUT: {
-					System.err.println("The code for command " + commandObj + " is not implemented yet");
+					errStream.println("The code for command " + commandObj + " is not implemented yet");
 					break;
 				}
 				case SYSTEM: {
@@ -179,23 +191,25 @@ public class MfgSystemApplication {
 					break;
 				}
 				case STATE: {
+					String stateType = null;
 					try {
 						String machName = tokenizer.nextToken();
-						String stateType = tokenizer.nextToken();
+						stateType = tokenizer.nextToken();
 						double start = Double.parseDouble(tokenizer.nextToken());
 						double end = Double.parseDouble(tokenizer.nextToken());
 						Machine m = ms.findMachine(machName);
-						MachineState  a = new MachineState(m, stateType.start, end);
-						m.addState(a);
+						MachineState mst = new MachineState(m, stateType.toUpperCase(), start, end);
+						m.addState(mst);
 					} catch (NumberFormatException e) {
-						System.err.println("Start time and End time need to be numbers!");
+						errStream.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {
-						System.err.println(e.getMessage());
-					} catch (AlreadyMemberException e) {
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					} catch (IllegalArgumentException e) {
-						System.err.println(e.getMessage());
+						errStream.println("State type " + stateType + " is not defined" );
 					}
+//					catch (AlreadyMemberException e) {
+//						errStream.println(e.getMessage());
+//					}
 
 					break;
 				}
@@ -207,15 +221,28 @@ public class MfgSystemApplication {
 					} catch (UnknownObjectException e) {
 						System.err.println(e.getMessage());
 					} catch (NoSuchElementException e) {
-						System.err.println("Job for activities listing needs to be specified! ");
+						System.err.println("Machine fro states listing needs to be specified! ");
 					}
 					break;
 				}
-				case FEATURES:
+
+				case FEATURES: {
+					try {
+						String jobName = tokenizer.nextToken();
+						Job j = ms.findJob(jobName);
+						j.listFeatures();
+					} catch (UnknownObjectException e) {
+						errStream.println(e.getMessage());
+					} catch (NoSuchElementException e) {
+						errStream.println("Job for features listing needs to be specified! ");
+					}
+					break;
+				}
+
 				case RECTANGLE:
 				case TRIANGLE:
 				{
-					System.err.println("Command " + commandObj + " is not implemented yet");
+					errStream.println("Command " + commandObj + " is not implemented yet");
 					break;
 				}
 				case JOBS: {
