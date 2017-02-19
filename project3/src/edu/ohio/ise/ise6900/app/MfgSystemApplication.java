@@ -89,6 +89,7 @@ public class MfgSystemApplication {
 					} catch (AlreadyMemberException ex) {
 						System.err.println(ex.getMessage());
 					} catch (NumberFormatException nfe) {
+
 						System.err.println("Batch size needs to be an integer!");
 					} catch (NoSuchElementException e) {
 						System.err.println("Not enough job parameters are specified");
@@ -140,13 +141,15 @@ public class MfgSystemApplication {
 						Job j = ms.findJob(jobName);
 						MfgFeature f = j.findFeature(featureName);
 						Activity a = new Activity(m, j, start, end);
-						j.addActivity (a);
 						m.addState(a);
+						j.addActivity (a);
 					} catch (NumberFormatException e) {
 						System.err.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {
 						System.err.println(e.getMessage());
 					} catch (AlreadyMemberException e) {
+						System.err.println(e.getMessage());
+					} catch (IllegalArgumentException e) {
 						System.err.println(e.getMessage());
 					}
 					break;
@@ -175,10 +178,39 @@ public class MfgSystemApplication {
 					ms.printout();
 					break;
 				}
+				case STATE: {
+					try {
+						String machName = tokenizer.nextToken();
+						String stateType = tokenizer.nextToken();
+						double start = Double.parseDouble(tokenizer.nextToken());
+						double end = Double.parseDouble(tokenizer.nextToken());
+						Machine m = ms.findMachine(machName);
+						MachineState  a = new MachineState(m, stateType.start, end);
+						m.addState(a);
+					} catch (NumberFormatException e) {
+						System.err.println("Start time and End time need to be numbers!");
+					} catch (UnknownObjectException e) {
+						System.err.println(e.getMessage());
+					} catch (AlreadyMemberException e) {
+						System.err.println(e.getMessage());
+					} catch (IllegalArgumentException e) {
+						System.err.println(e.getMessage());
+					}
 
-
-				case STATE:
-				case STATES:
+					break;
+				}
+				case STATES: {
+					try {
+						String machineName = tokenizer.nextToken();
+						Machine m = ms.findMachine (machineName);
+						m.listStates();
+					} catch (UnknownObjectException e) {
+						System.err.println(e.getMessage());
+					} catch (NoSuchElementException e) {
+						System.err.println("Job for activities listing needs to be specified! ");
+					}
+					break;
+				}
 				case FEATURES:
 				case RECTANGLE:
 				case TRIANGLE:

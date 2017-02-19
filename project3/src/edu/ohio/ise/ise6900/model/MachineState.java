@@ -12,5 +12,9 @@ public class MachineState extends AbstractState {
 	public  StateOption state() {
 		return state;
 	}
+	
+	public void printout () {
+		System.out.println(toString());
+	}
 
 }

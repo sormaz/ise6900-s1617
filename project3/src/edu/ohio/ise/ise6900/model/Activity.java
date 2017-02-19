@@ -6,9 +6,7 @@ public class Activity extends AbstractState {
 
 	public Activity(Machine machine, Job job, double startTime, double endTime) {
 		super(machine, startTime, endTime);
-		
 		this.job = job;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String toString () {
@@ -18,6 +16,8 @@ public class Activity extends AbstractState {
 		return StateOption.BUSY;
 	}
 
-
+	public void printout () {
+		System.out.println(toString());
+	}
 
 }

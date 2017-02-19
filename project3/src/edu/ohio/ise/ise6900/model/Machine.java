@@ -13,12 +13,21 @@ public class Machine extends MfgObject {
 
 	public void addState(AbstractState a) {
 		// TODO Auto-generated method stub
+		// verify existence of overlapping state
 		throw new UnsupportedOperationException("Method addState() not implemented yet");
 	}
 	
 	@Override
 	public void printout() {
 		throw new UnsupportedOperationException("Method printout() not implemented yet");
+		
+	}
+
+	public void listStates() {
+		System.out.println("States for machine " + getName());
+		for (AbstractState s : states) {
+			System.out.println("\t" + s.toString());
+		}
 		
 	}
 

@@ -9,6 +9,11 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	
 	public AbstractState(Machine machine, double startTime, double endTime) {
 		super("act");
+		// verify start end end times
+		if (startTime >= endTime) {
+			throw new IllegalArgumentException("activity with start time " + startTime + 
+							" larger then end time " + endTime + " is impossible");
+		}
 		this.machine = machine;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -46,6 +51,8 @@ public String toString() {
 	return "Machine " + machine.getName() + " starts at " + startTime + " duration "+ duration();
 	
 }
+
+
 
 }
 
