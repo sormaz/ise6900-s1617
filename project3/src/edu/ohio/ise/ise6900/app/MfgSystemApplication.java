@@ -97,7 +97,9 @@ public class MfgSystemApplication {
 					} catch (AlreadyMemberException ex) {
 						errStream.println(ex.getMessage());
 					} catch (NumberFormatException nfe) {
+
 						errStream.println("Batch size needs to be an integer!");
+
 					} catch (NoSuchElementException e) {
 						errStream.println("Not enough job parameters are specified");
 					}
@@ -148,14 +150,19 @@ public class MfgSystemApplication {
 						Job j = ms.findJob(jobName);
 						MfgFeature f = j.findFeature(featureName);
 						Activity a = new Activity(m, j, start, end);
-						j.addActivity (a);
 						m.addState(a);
+						j.addActivity (a);
 					} catch (NumberFormatException e) {
 						errStream.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {
 						errStream.println(e.getMessage());
 					} catch (AlreadyMemberException e) {
+
 						errStream.println(e.getMessage());
+					} catch (IllegalArgumentException e) {
+
+						errStream.println(e.getMessage());
+
 					}
 					break;
 				}
@@ -203,20 +210,22 @@ public class MfgSystemApplication {
 //					catch (AlreadyMemberException e) {
 //						errStream.println(e.getMessage());
 //					}
+
 					break;
 				}
 				case STATES: {
 					try {
 						String machineName = tokenizer.nextToken();
-						Machine m = ms.findMachine(machineName);
+						Machine m = ms.findMachine (machineName);
 						m.listStates();
 					} catch (UnknownObjectException e) {
-						errStream.println(e.getMessage());
+						System.err.println(e.getMessage());
 					} catch (NoSuchElementException e) {
-						errStream.println("Machine for states listing needs to be specified! ");
+						System.err.println("Machine fro states listing needs to be specified! ");
 					}
 					break;
 				}
+
 				case FEATURES: {
 					try {
 						String jobName = tokenizer.nextToken();
@@ -229,6 +238,7 @@ public class MfgSystemApplication {
 					}
 					break;
 				}
+
 				case RECTANGLE:
 				case TRIANGLE:
 				{

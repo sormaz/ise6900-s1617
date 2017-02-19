@@ -23,8 +23,8 @@ public class Machine extends MfgObject {
 
 	public void listStates() {
 		System.out.println("States for machine " + getName());
-		for (AbstractState a : states) {
-			System.out.println("\t" + a.toString());
+		for (AbstractState s : states) {
+			System.out.println("\t" + s.toString());
 		}
 		
 	}

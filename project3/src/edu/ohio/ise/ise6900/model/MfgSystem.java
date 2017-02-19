@@ -1,3 +1,4 @@
+
 package edu.ohio.ise.ise6900.model;
 
 import java.util.*;
@@ -18,7 +19,7 @@ public class MfgSystem extends MfgObject {
 			findJob(j.getName());
 			throw new AlreadyMemberException("Job " + j.getName() + " is alreaady in the mfg system " + this.getName());
 		} catch (UnknownObjectException e) {
-			jobs.put(j.getName(), j);		
+			jobs.put(j.getName(), j);	
 		}
 	}
 
@@ -60,7 +61,7 @@ public class MfgSystem extends MfgObject {
 	}
 	
 	public String toString () {
-		return "MfgSystem " + getName() + " contains " + jobs.size() + " Jobs and "  + machines.size() + " Machines";
+		return "MfgSystem " + getName() + "contains " + jobs.size() + " Jobs and "  + machines.size() + " machines";
 		
 	}
 	
