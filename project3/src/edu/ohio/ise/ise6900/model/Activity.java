@@ -3,11 +3,13 @@ package edu.ohio.ise.ise6900.model;
 
 public class Activity extends AbstractState {
 	
-	Job job;
+	private Job job;
+	private MfgFeature feature;
 
-	public Activity(Machine machine, Job job, double startTime, double endTime) {
+	public Activity(Machine machine, Job job, MfgFeature f, double startTime, double endTime) {
 		super(machine, startTime, endTime);
 		this.job = job;
+		feature = f;
 	}
 	
 	public String toString () {
@@ -21,5 +23,12 @@ public class Activity extends AbstractState {
 	public void printout () {
 		System.out.println(toString());
 	}
+
+	public MfgFeature getFeature() {
+		// TODO Auto-generated method stub
+		return feature;
+	}
+	
+
 }
 

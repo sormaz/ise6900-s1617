@@ -80,4 +80,23 @@ public class Job extends MfgObject {
 		}
 		
 	}
+
+	public Activity findActivity(Machine m, MfgFeature f) throws UnknownObjectException{
+		for (Activity a : activities) {
+			if (a.getMchine() ==m && a.getFeature() == f)
+				return a;
+		}
+		throw new UnknownObjectException("The activity with machine " + m.getName() + " and feature " + f.getName() + 
+										" does nto exist in job " + getName());
+	} 
+
+	public void deleteActivity(Activity a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void deleteFeature(String featureName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

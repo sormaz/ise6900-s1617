@@ -11,7 +11,7 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 		super("act");
 		// verify start end end times
 		if (startTime >= endTime) {
-			throw new IllegalArgumentException("activity with start time " + startTime + 
+			throw new IllegalArgumentException(this.getClass().getName() + " with start time " + startTime + 
 							" larger then end time " + endTime + " is impossible");
 		}
 		this.machine = machine;
@@ -21,6 +21,9 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	
 	public double duration () {
 		return endTime - startTime;
+	}
+	public Machine getMchine () {
+		return machine;
 	}
 	
 	@Override

@@ -69,4 +69,22 @@ public class MfgSystem extends MfgObject {
 		System.out.println(toString());
 	}
 
+	public void deleteJob(String name) throws UnknownObjectException{
+		
+		Job j = jobs.remove(name);
+		if (j == null) {
+			throw new UnknownObjectException ("Job " + name + " did not exist in the mfg system " + getName());
+		}
+		
+	}
+	
+	public void deleteMachine(String name) throws UnknownObjectException{
+		
+		Machine m = machines.remove(name);
+		if (m == null) {
+			throw new UnknownObjectException ("Machine " + name + " did not exist in the mfg system " + getName());
+		}
+		
+	}
+
 }

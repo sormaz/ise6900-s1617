@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import edu.ohio.ise.ise6900.gui.*;
 import edu.ohio.ise.ise6900.model.*;
 
 public class MfgSystemApplication {
@@ -125,7 +126,7 @@ public class MfgSystemApplication {
 					try {
 						String featureName = tokenizer.nextToken();
 						String jobName = tokenizer.nextToken();
-						Job job = Job.findJob (jobName);
+						Job job = ms.findJob (jobName);
 						job.addFeature(new MfgFeature(featureName));
 					} catch (AlreadyMemberException e) {
 						// TODO Auto-generated catch block
@@ -149,7 +150,7 @@ public class MfgSystemApplication {
 						Machine m = ms.findMachine(machName);
 						Job j = ms.findJob(jobName);
 						MfgFeature f = j.findFeature(featureName);
-						Activity a = new Activity(m, j, start, end);
+						Activity a = new Activity(m, j, f, start, end);
 						m.addState(a);
 						j.addActivity (a);
 					} catch (NumberFormatException e) {
@@ -179,7 +180,58 @@ public class MfgSystemApplication {
 					break;
 				}
 				case DELETE: {
-					errStream.println("The code for command " + commandObj + " is not implemented yet");
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							j.deleteActivity (a);
+							m.deleteState(a);							
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							job.deleteFeature(featureName);
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							ms.deleteJob (name);
+							System.out.println("Job " + name + " is deleted!" );
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								ms.deleteMachine(name);
+								System.out.println("Machine " + name + " is deleted!" );
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+					}
+					default:
+					errStream.println("Command " + Command.DELETE + " requires 1, 2, or 3 arguments");
+					}
 					break;
 				}
 				case PRINTOUT: {
@@ -219,9 +271,9 @@ public class MfgSystemApplication {
 						Machine m = ms.findMachine (machineName);
 						m.listStates();
 					} catch (UnknownObjectException e) {
-						System.err.println(e.getMessage());
+						errStream.println(e.getMessage());
 					} catch (NoSuchElementException e) {
-						System.err.println("Machine fro states listing needs to be specified! ");
+						errStream.println("Machine for states listing needs to be specified! ");
 					}
 					break;
 				}
@@ -239,10 +291,31 @@ public class MfgSystemApplication {
 					break;
 				}
 
-				case RECTANGLE:
+				case RECTANGLE: {
+					try {
+					double x = Double.parseDouble(tokenizer.nextToken());
+					double y = Double.parseDouble(tokenizer.nextToken());
+					double w = Double.parseDouble(tokenizer.nextToken());
+					double h = Double.parseDouble(tokenizer.nextToken());
+					Rectangle r = new Rectangle(x,y,w,h);
+					}
+					catch (NoSuchElementException e) {
+						errStream.println("Job for features listing needs to be specified! ");
+					}
+					break;
+				}
 				case TRIANGLE:
 				{
-					errStream.println("Command " + commandObj + " is not implemented yet");
+					try {
+					double x = Double.parseDouble(tokenizer.nextToken());
+					double y = Double.parseDouble(tokenizer.nextToken());
+					double b = Double.parseDouble(tokenizer.nextToken());
+					double h = Double.parseDouble(tokenizer.nextToken());
+					Triangle r = new Triangle(x,y,b,h);
+					}
+					catch (NoSuchElementException e) {
+						errStream.println("Job for features listing needs to be specified! ");
+					}
 					break;
 				}
 				case JOBS: {

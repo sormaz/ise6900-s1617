@@ -29,4 +29,9 @@ public class Machine extends MfgObject {
 		
 	}
 
+	public void deleteState(AbstractState a) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
