@@ -12,7 +12,9 @@ public class MfgFeature extends MfgObject {
 	
 	@Override
 	public void printout() {
-		throw new UnsupportedOperationException("Method printout() not implemented yet");
+		System.out.println("MfgFeature " + getName() +
+				"\n\tJob" + job.getName() +
+				"\n\tActivity " + activity.toString());
 		
 	}
 

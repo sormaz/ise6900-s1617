@@ -27,6 +27,7 @@ public class Job extends MfgObject {
 			throw new AlreadyMemberException("Job " + this.getName() + " already contains feature " + f.getName());
 		}		
 		featureMap.put(f.getName(), f);
+		f.job = this;
 	}
 	public void addFeature(String featureName) throws AlreadyMemberException {
 		if (featureMap.keySet().contains(featureName)) {
@@ -69,7 +70,10 @@ public class Job extends MfgObject {
 
 	@Override
 	public void printout() {
-		throw new UnsupportedOperationException("Method printout() not implemented yet");
+		System.out.println(toString() 
+				+ "\n\tNumber of features " + featureMap.size() +
+				"\n\tNumber of activities " + activities.size());
+		
 		
 	}
 

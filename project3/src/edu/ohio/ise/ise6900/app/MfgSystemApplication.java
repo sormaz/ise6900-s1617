@@ -228,9 +228,10 @@ public class MfgSystemApplication {
 								errStream.println(e1.getMessage());
 							}	
 						}
+						break;
 					}
 					default:
-					errStream.println("Command " + Command.DELETE + " requires 1, 2, or 3 arguments");
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}
 					break;
 				}
@@ -283,9 +284,10 @@ public class MfgSystemApplication {
 								errStream.println(e1.getMessage());
 							}	
 						}
+						break;
 					}
 					default:
-					errStream.println("Command " + Command.DELETE + " requires 1, 2, or 3 arguments");
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}
 					break;
 				}

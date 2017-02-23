@@ -10,6 +10,7 @@ public class Activity extends AbstractState {
 		super(machine, startTime, endTime);
 		this.job = job;
 		feature = f;
+		f.activity = this;
 	}
 	
 	public String toString () {

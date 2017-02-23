@@ -17,8 +17,7 @@ public class Machine extends MfgObject {
 	
 	@Override
 	public void printout() {
-		throw new UnsupportedOperationException("Method printout() not implemented yet");
-		
+		System.out.println("MAchine " + getName() + "\n\tNumber of States " + states.size());	
 	}
 
 	public void listStates() {
