@@ -235,7 +235,58 @@ public class MfgSystemApplication {
 					break;
 				}
 				case PRINTOUT: {
-					errStream.println("The code for command " + commandObj + " is not implemented yet");
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							a.printout();						
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							MfgFeature f = job.findFeature(featureName);
+							f.printout();
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							Job j = ms.findJob (name);
+							j.printout();
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								Machine m = ms.findMachine(name);
+								m.printout();
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+					}
+					default:
+					errStream.println("Command " + Command.DELETE + " requires 1, 2, or 3 arguments");
+					}
 					break;
 				}
 				case SYSTEM: {
