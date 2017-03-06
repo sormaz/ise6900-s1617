@@ -8,12 +8,12 @@ import edu.ohio.ise.ise6900.model.*;
 
 public class MfgSystemApplicationShow {
 	enum Command {
-		JOB, MACHINE, ACTIVITY, FEATURE, STATE, // to create objects
+		JOB, ACTIVITY, FEATURE, STATE, // to create objects
 		ACTIVITIES, FEATURES, STATES,           // to report collections for a given object
 		DELETE, PRINTOUT, 						// to delete or printout an individual object
 		JOBS, MACHINES, SYSTEM,					// to report system state and collections
 		RECTANGLE, TRIANGLE, 					// to make draw objects
-		EXIT, QUIT								// to exit the application
+		EXIT							// to exit the application
 	} 
 	static SortedMap<String, Command> commands;
 	static String menu;
@@ -140,6 +140,7 @@ public class MfgSystemApplicationShow {
 				}
 				case EXIT: {
 					// exit the program
+					sc.close();
 					return;
 				}
 

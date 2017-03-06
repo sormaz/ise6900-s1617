@@ -19,7 +19,7 @@ public class Rectangle {
 		double perimeter = 2 * (width + height);
 		double diagonal = Math.sqrt(width * width + height * height);
 		double circleArea = diagonal * diagonal  * Math.PI / 4;
-		
+		s.close();
 		// Print out the results
 		System.out.println("Rectangle parameters: width=" + width + ", height=" + height);
 		System.out.println("Area=" + area);

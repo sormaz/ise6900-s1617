@@ -4,7 +4,7 @@ package edu.ohio.ise.ise6900.model;
 public class Activity extends AbstractState {
 	
 	private Job job;
-	private MfgFeature feature;
+	protected MfgFeature feature;
 
 	public Activity(Machine machine, Job job, MfgFeature f, double startTime, double endTime) {
 		super(machine, startTime, endTime);

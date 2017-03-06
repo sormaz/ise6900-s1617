@@ -379,6 +379,7 @@ public class MfgSystemApplication {
 					ms.printMachines();
 					break;
 				}
+				case QUIT:
 				case EXIT: {
 					// exit the program
 					return;
