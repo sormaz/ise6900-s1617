@@ -24,6 +24,7 @@ public class LayoutDemoApp extends Application {
 //		redBtn.setLayoutX(100);
 //		redBtn.setLayoutY(80);
 		redBtn.setText("Red");
+		
 		redBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				scene.setFill(Color.RED);
