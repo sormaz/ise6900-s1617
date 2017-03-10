@@ -5,7 +5,8 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.event.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;;
 
 public class ButtonDemoApp extends Application {
 
@@ -18,35 +19,36 @@ public class ButtonDemoApp extends Application {
 				primaryStage.setTitle("Hello World");
 		Group root = new Group();
 		Scene scene = new Scene(root, 300, 250);
+		
+		class ColorHandler<Event> implements EventHandler<ActionEvent> {
+			
+			Color background;
+			 public ColorHandler (Color c) {
+				background = c;
+			}
+			public void handle(ActionEvent event) {
+				scene.setFill(background);
+			}
+		}
+		
 		Button redBtn = new Button();
-		redBtn.setLayoutX(100);
+		redBtn.setLayoutX(50);
 		redBtn.setLayoutY(80);
 		redBtn.setText("Red");
-		redBtn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				scene.setFill(Color.RED);
-			}
-		});
-		Button blueBtn = new Button();
-		blueBtn.setLayoutX(150);
-		blueBtn.setLayoutY(80);
-		blueBtn.setText("Blue");
-		blueBtn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				scene.setFill(Color.BLUE);
-			}
-		});
+
+		redBtn.setOnAction(new ColorHandler<ActionEvent>(Color.RED));
+		Button yellowBtn = new Button();
+		yellowBtn.setLayoutX(150);
+		yellowBtn.setLayoutY(80);
+		yellowBtn.setText("Yellow");
+		yellowBtn.setOnAction(new ColorHandler<ActionEvent>(Color.YELLOW));
 		Button greenBtn = new Button();
-		greenBtn.setLayoutX(200);
+		greenBtn.setLayoutX(250);
 		greenBtn.setLayoutY(80);
 		greenBtn.setText("Green");
-		greenBtn.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				scene.setFill(Color.GREEN);
-			}
-		});
+		greenBtn.setOnAction(new ColorHandler<ActionEvent>(Color.GREEN));
 		root.getChildren().add(redBtn);
-		root.getChildren().add(blueBtn);
+		root.getChildren().add(yellowBtn);
 		root.getChildren().add(greenBtn);
 		
 		primaryStage.setScene(scene);
@@ -58,5 +60,8 @@ public class ButtonDemoApp extends Application {
 		launch(args);
 
 	}
+	
 
 }
+
+

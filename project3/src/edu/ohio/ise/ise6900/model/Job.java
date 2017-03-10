@@ -103,4 +103,11 @@ public class Job extends MfgObject {
 		// TODO Auto-generated method stub
 		
 	}
-}
+
+
+		public Collection<MfgFeature> getFeatures() {
+			// TODO Auto-generated method stub
+			return featureMap.values();
+		}
+	}
+
