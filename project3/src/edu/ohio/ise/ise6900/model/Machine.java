@@ -29,21 +29,18 @@ public class Machine extends MfgObject {
 		for (AbstractState s : states) {
 			System.out.println("\t" + s.toString());
 		}
-		
 	}
 
 	public void deleteState(AbstractState a) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public Collection<Shape> makeShapes() {
 		
 		Collection<Shape> shapes = new ArrayList<Shape>();
-		Line line = new Line (30,50,70,50);
-				line.setStrokeWidth(5.0);
-				line.setStroke(Color.RED);
-		shapes.add(line);
+		for (AbstractState a : states) {
+		shapes.addAll(a.makeShapes());
+		}
 		return shapes;
 	}
 

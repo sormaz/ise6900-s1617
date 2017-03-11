@@ -117,10 +117,9 @@ public class Job extends MfgObject {
 		public Collection<Shape> makeShapes() {
 			
 			Collection<Shape> shapes = new ArrayList<Shape>();
-			Line line = new Line (30,50,70,50);
-					line.setStrokeWidth(5.0);
-					line.setStroke(Color.RED);
-			shapes.add(line);
+			for (Activity a : activities) {
+			shapes.addAll(a.makeShapes());
+			}
 			return shapes;
 		}
 	}

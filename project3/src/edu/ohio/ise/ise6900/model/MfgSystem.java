@@ -448,6 +448,66 @@ public class MfgSystem extends MfgObject {
 					printMachines();
 					break;
 				}
+				case DISPLAY: {
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = findMachine(machName);
+							Job j = findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							a.display(null);						
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = findJob (jobName);
+							MfgFeature f = job.findFeature(featureName);
+							f.display(null);
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							Job j = findJob (name);
+							j.display(null);
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								Machine m = findMachine(name);
+								m.display(null);
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+						break;
+					}
+					case 0: {
+						display(null);
+						break;
+						}
+					default:
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+					}
+					break;
+				}
 				case QUIT:
 				case EXIT: {
 					// exit the program
@@ -479,11 +539,20 @@ public class MfgSystem extends MfgObject {
 	@Override
 	public Collection<Shape> makeShapes() {
 		Collection<Shape> shapes = new ArrayList<Shape>();
-		Line line = new Line (30,50,70,50);
-				line.setStrokeWidth(5.0);
-				line.setStroke(Color.RED);
-		shapes.add(line);
+		for (Machine m : machines.values()) {
+		shapes.addAll(m.makeShapes());
+		}
 		return shapes;
+	}
+	
+	public static void main (String [] args) {
+		MfgSystem ms = new MfgSystem("");
+		try {
+			ms.read(new File ("sample.mfg"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

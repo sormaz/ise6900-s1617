@@ -16,7 +16,7 @@ public class DrawApplication extends Application {
 	}
 
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Hello World");
+		primaryStage.setTitle("MfgSystem");
 		Group root = new Group();
 		Scene scene = new Scene(canvas, 300, 250);
 

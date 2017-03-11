@@ -425,6 +425,10 @@ public class MfgSystemApplication {
 						}
 						break;
 					}
+					case 0: {
+						ms.display(null);
+						break;
+						}
 					default:
 					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}

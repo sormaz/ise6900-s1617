@@ -5,11 +5,13 @@ import java.util.Collection;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
 
 public abstract class AbstractState extends MfgObject implements Comparable<AbstractState> {
 	
-	static double OFFSET = Double.parseDouble(getProperty("OFFSET", "20"));
+//	static double OFFSET = Double.parseDouble(getProperty("OFFSET", "20"));
 	
 
 	private Machine machine;
@@ -67,10 +69,14 @@ public String toString() {
 public Collection<Shape> makeShapes() {
 	
 	Collection<Shape> shapes = new ArrayList<Shape>();
-	Line line = new Line (OFFSET + startTime,machine.getY(), OFFSET + endTime,machine.getY());
-			line.setStrokeWidth(5.0);
-			line.setStroke(Color.RED);
-	shapes.add(line);
+	Line line = new Line (OFFSET + SCALE * startTime,machine.getY(), OFFSET + SCALE * endTime,machine.getY());
+	line.setStrokeWidth(5.0);
+	line.setStroke(state().getColor());
+	line.setStrokeLineCap(StrokeLineCap.BUTT);
+	Rectangle r = new Rectangle(OFFSET + SCALE * startTime,machine.getY(), SCALE * duration(),HEIGHT);
+	r.setStroke(Color.WHITESMOKE);
+	r.setFill(state().getColor());
+	shapes.add(r);
 	return shapes;
 }
 
@@ -78,4 +84,16 @@ public Collection<Shape> makeShapes() {
 
 }
 
-enum StateOption { BUSY, IDLE, DOWN, BLOCKED}
+enum StateOption { BUSY(Color.GREEN), IDLE(Color.YELLOW), DOWN(Color.RED), BLOCKED(Color.BLUE);
+	private final Color color;
+	
+	StateOption(Color c) {
+		color = c;
+	}
+	
+	public Color getColor () {
+		return color;
+		
+	}
+	
+}

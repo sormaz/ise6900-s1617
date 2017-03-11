@@ -15,19 +15,39 @@ public abstract class MfgObject implements Drawable {
 	
 	static Properties properties;
 	
+	static public double OFFSET = 0.0;
+	static public double SCALE = 1.0;
+	static public double HEIGHT = 10.0;
+	
 	static {
 		properties = new Properties();
 		try {
 			properties.load(new FileInputStream(new File("mfgsystem.properties")));
+			try {
+				SCALE = Double.parseDouble(getProperty("SCALE", Double.toString(SCALE)));
+			} catch (NumberFormatException e) {
+				// Can not read values keep default
+				System.err.println (e.getMessage());
+			}
+			try {
+				OFFSET = Double.parseDouble(getProperty("OFFSET", Double.toString(OFFSET)));
+			} catch (NumberFormatException e) {
+				// Can not read values keep default
+				System.err.println (e.getMessage());
+			}
+			try {
+				HEIGHT = Double.parseDouble(getProperty("HEIGHT", Double.toString(HEIGHT)));
+			} catch (NumberFormatException e) {
+				// Can not read values keep default
+				System.err.println (e.getMessage());
+			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Can not read properties, keep defaults
+			System.err.println (e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			
-		}
+			System.err.println (e.getMessage());
+		} 
 	}
 	
 	public static Map<String, MfgObject> objectMap = new HashMap<String, MfgObject> ();
