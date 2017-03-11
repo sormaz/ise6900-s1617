@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 
+import edu.ohio.ise.ise6900.draw.DrawPanel;
 import edu.ohio.ise.ise6900.model.*;
 
 import javafx.application.Application;
@@ -18,9 +19,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 public class MfgSystemUIApp extends Application {
-		
+		public static DrawPanel canvas = new DrawPanel();
 	MfgSystem ms;
 
 		@Override
@@ -40,8 +43,11 @@ public class MfgSystemUIApp extends Application {
 			
 			machineListView.setTooltip(new Tooltip("View machines in the system"));
 			jobTreeView.setTooltip(new Tooltip("View jobs and features in the system"));
-			
-			SplitPane centerPane = new SplitPane(new Label("top"),  new Label("middle"), new Label("bottom"));
+			Line line = new Line (30,250,70,250);
+			line.setStrokeWidth(25.0);
+			line.setStroke(Color.RED);
+			canvas.getChildren().add(line);
+			SplitPane centerPane = new SplitPane(new Label("top"),  new Label("middle"), canvas);
 			centerPane.setOrientation(Orientation.VERTICAL);
 			MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Edit"));
 			ToolBar toolBar = new ToolBar(new Button ("Open"));
