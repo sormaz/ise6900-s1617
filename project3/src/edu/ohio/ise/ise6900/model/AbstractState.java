@@ -1,6 +1,15 @@
 package edu.ohio.ise.ise6900.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+
 public abstract class AbstractState extends MfgObject implements Comparable<AbstractState> {
+	
+	static double OFFSET = Double.parseDouble(getProperty("OFFSET", "20"));
 	
 
 	private Machine machine;
@@ -53,6 +62,16 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 public String toString() {
 	return "Machine " + machine.getName() + " starts at " + startTime + " duration "+ duration();
 	
+}
+
+public Collection<Shape> makeShapes() {
+	
+	Collection<Shape> shapes = new ArrayList<Shape>();
+	Line line = new Line (OFFSET + startTime,machine.getY(), OFFSET + endTime,machine.getY());
+			line.setStrokeWidth(5.0);
+			line.setStroke(Color.RED);
+	shapes.add(line);
+	return shapes;
 }
 
 

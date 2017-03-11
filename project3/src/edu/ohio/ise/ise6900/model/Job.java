@@ -2,6 +2,10 @@ package edu.ohio.ise.ise6900.model;
 
 import java.util.*;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+
 public class Job extends MfgObject {
 	
 	public static Map<String, Job> jobMap = new HashMap<String, Job> ();
@@ -108,6 +112,16 @@ public class Job extends MfgObject {
 		public Collection<MfgFeature> getFeatures() {
 			// TODO Auto-generated method stub
 			return featureMap.values();
+		}
+		
+		public Collection<Shape> makeShapes() {
+			
+			Collection<Shape> shapes = new ArrayList<Shape>();
+			Line line = new Line (30,50,70,50);
+					line.setStrokeWidth(5.0);
+					line.setStroke(Color.RED);
+			shapes.add(line);
+			return shapes;
 		}
 	}
 

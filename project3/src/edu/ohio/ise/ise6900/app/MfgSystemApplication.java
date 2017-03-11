@@ -33,6 +33,7 @@ public class MfgSystemApplication {
 
 		commands.put("delete", Command.DELETE);
 		commands.put("printout", Command.PRINTOUT);
+		commands.put("display", Command.DISPLAY);
 
 		commands.put("jobs", Command.JOBS);
 		commands.put("machines", Command.MACHINES);
@@ -370,6 +371,63 @@ public class MfgSystemApplication {
 				}
 				case MACHINES: {
 					ms.printMachines();
+					break;
+				}
+				
+				case DISPLAY: {
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							a.display(null);						
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							MfgFeature f = job.findFeature(featureName);
+							f.display(null);
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							Job j = ms.findJob (name);
+							j.display(null);
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								Machine m = ms.findMachine(name);
+								m.display(null);
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+						break;
+					}
+					default:
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+					}
 					break;
 				}
 				case QUIT:

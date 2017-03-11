@@ -1,6 +1,13 @@
 
 package edu.ohio.ise.ise6900.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+
 public class Activity extends AbstractState {
 	
 	private Job job;
@@ -29,6 +36,8 @@ public class Activity extends AbstractState {
 		// TODO Auto-generated method stub
 		return feature;
 	}
+
+
 	
 
 }

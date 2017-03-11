@@ -8,11 +8,32 @@ import java.util.*;
 import static edu.ohio.ise.ise6900.app.MfgSystemApplication.*;
 import edu.ohio.ise.ise6900.gui.Rectangle;
 import edu.ohio.ise.ise6900.gui.Triangle;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 public class MfgSystem extends MfgObject {
 	
+	static Properties properties;
+	
 	Map<String,Job> jobs;
 	Map<String,Machine> machines;
+	
+	static {
+		properties = new Properties();
+		try {
+			properties.load(new FileInputStream(new File("mfgsystem.properties")));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			
+		}
+	}
+	
 
 	public MfgSystem(String n) {
 		super(n);
@@ -453,6 +474,16 @@ public class MfgSystem extends MfgObject {
 	public Collection<Job> getJobs() {
 		// TODO Auto-generated method stub
 		return jobs.values();
+	}
+	
+	@Override
+	public Collection<Shape> makeShapes() {
+		Collection<Shape> shapes = new ArrayList<Shape>();
+		Line line = new Line (30,50,70,50);
+				line.setStrokeWidth(5.0);
+				line.setStroke(Color.RED);
+		shapes.add(line);
+		return shapes;
 	}
 
 
