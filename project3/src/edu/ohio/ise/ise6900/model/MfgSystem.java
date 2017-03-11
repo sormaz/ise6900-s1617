@@ -548,7 +548,7 @@ public class MfgSystem extends MfgObject {
 	public static void main (String [] args) {
 		MfgSystem ms = new MfgSystem("");
 		try {
-			ms.read(new File ("sample.mfg"));
+			ms.read(new File ("fss-demo.mfg"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
