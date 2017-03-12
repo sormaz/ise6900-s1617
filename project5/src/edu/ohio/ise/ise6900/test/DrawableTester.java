@@ -38,6 +38,7 @@ public class DrawableTester  implements Drawable {
 	
 	public void display (String [] args) {
 		DrawApplication da = new DrawApplication();
+		
 		da.getCanvas().addTarget(this);
 		da.main(args);
 	}

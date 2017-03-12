@@ -13,6 +13,7 @@ import edu.ohio.ise.ise6900.draw.Drawable;
 
 public abstract class MfgObject implements Drawable {
 	
+	static DrawApplication da = new DrawApplication();
 	static Properties properties;
 	
 	static public double OFFSET = 0.0;
@@ -69,9 +70,16 @@ public abstract class MfgObject implements Drawable {
 	public abstract void printout ();
 	
 	public void display (String [] args) {
-		DrawApplication da = new DrawApplication();
+		da.getCanvas().getChildren().clear();
+		da.getCanvas().clear();
 		da.getCanvas().addTarget(this);
-		da.main(args);
+		try {
+			da.main(args);
+		} catch (Exception e) {
+			// this does not work still thread problem
+			da.show();
+		}
+
 	}
 	
 	public static String getProperty(String name, String def) {

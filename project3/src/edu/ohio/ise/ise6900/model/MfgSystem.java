@@ -133,7 +133,9 @@ public class MfgSystem extends MfgObject {
 			while (true) {
 				errStream.flush();
 				// System.out.print(menu);
-				System.out.print(menu);
+				if (is == System.in) {
+					System.out.print(menu);
+				}
 
 				String input = sc.nextLine();
 				System.out.println("input is: " + input);
@@ -548,7 +550,7 @@ public class MfgSystem extends MfgObject {
 	public static void main (String [] args) {
 		MfgSystem ms = new MfgSystem("");
 		try {
-			ms.read(new File ("fss-demo-pr3a.mfg"));
+			ms.read(new File ("fss-demo.mfg"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
