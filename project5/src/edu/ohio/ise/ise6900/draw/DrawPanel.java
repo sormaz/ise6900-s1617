@@ -27,12 +27,18 @@ public class DrawPanel extends Group {
 	
 	public void addTarget (Drawable t) {
 		targets.add(t);		
-		this.getChildren().addAll(t.makeShapes());
+//		this.getChildren().addAll(t.makeShapes());
 	}
 	
 	public void clear ( ) {
 		targets.clear();
 		this.getChildren().clear();
+	}
+	
+	public void makeShapes () {
+		for (Drawable d : targets) {
+			this.getChildren().addAll(d.makeShapes());
+		}
 	}
 	
 

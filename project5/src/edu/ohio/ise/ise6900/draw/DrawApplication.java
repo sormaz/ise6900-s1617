@@ -19,7 +19,7 @@ public class DrawApplication extends Application {
 		primaryStage.setTitle("MfgSystem");
 		Group root = new Group();
 		Scene scene = new Scene(canvas, 300, 250);
-
+		canvas.makeShapes();
 //		root.getChildren().add(canvas);
 		primaryStage.setScene(scene);
 		primaryStage.show();

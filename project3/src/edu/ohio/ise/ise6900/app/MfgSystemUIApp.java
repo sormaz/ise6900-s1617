@@ -46,7 +46,8 @@ public class MfgSystemUIApp extends Application {
 			Line line = new Line (30,250,70,250);
 			line.setStrokeWidth(25.0);
 			line.setStroke(Color.RED);
-			canvas.getChildren().add(line);
+			canvas.addTarget(ms);
+			canvas.makeShapes();
 			SplitPane centerPane = new SplitPane(new Label("top"),  new Label("middle"), canvas);
 			centerPane.setOrientation(Orientation.VERTICAL);
 			MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Edit"));
