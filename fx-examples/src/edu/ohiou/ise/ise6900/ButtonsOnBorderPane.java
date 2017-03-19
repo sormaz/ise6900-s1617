@@ -22,19 +22,19 @@ public class ButtonsOnBorderPane extends Application {
     BorderPane bp = new BorderPane();
     bp.setPadding(new Insets(10, 20, 10, 20));
 
-    Button btnTop = new Button("Top");
+    Button btnTop = new Button("Red");
     bp.setTop(btnTop);
 
-    Button btnLeft = new Button("Left");
+    Button btnLeft = new Button("Green");
     bp.setLeft(btnLeft);
 
-    Button btnCenter = new Button("Center");
+    Button btnCenter = new Button("Select");
     bp.setCenter(btnCenter);
 
-    Button btnRight = new Button("Right");
+    Button btnRight = new Button("Yellow");
     bp.setRight(btnRight);
 
-    Button btnBottom = new Button("Bottom");
+    Button btnBottom = new Button("Blue");
     bp.setBottom(btnBottom);
 
     Scene scene = new Scene(bp, 300, 200);
