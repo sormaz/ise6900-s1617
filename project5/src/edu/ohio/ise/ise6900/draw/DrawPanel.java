@@ -21,8 +21,7 @@ public class DrawPanel extends Group {
 	}
 
 	public DrawPanel(double width, double height) {
-//		super(width, height);
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public void addTarget (Drawable t) {

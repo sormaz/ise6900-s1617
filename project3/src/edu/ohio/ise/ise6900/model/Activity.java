@@ -7,6 +7,7 @@ import java.util.Collection;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 public class Activity extends AbstractState {
 	
@@ -35,6 +36,16 @@ public class Activity extends AbstractState {
 	public MfgFeature getFeature() {
 		// TODO Auto-generated method stub
 		return feature;
+	}
+	
+	public Collection<Shape> makeShapes() {
+		Collection<Shape> shapes = new ArrayList<Shape>();
+		Shape r =makeShape();
+		r.setStroke(job.getColor());
+		r.setStrokeType(StrokeType.INSIDE);
+		r.setStrokeWidth(3);
+		shapes.add(r);
+		return shapes;
 	}
 
 

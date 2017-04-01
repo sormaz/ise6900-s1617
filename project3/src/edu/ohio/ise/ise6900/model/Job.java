@@ -3,6 +3,7 @@ package edu.ohio.ise.ise6900.model;
 import java.util.*;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -121,6 +122,11 @@ public class Job extends MfgObject {
 			shapes.addAll(a.makeShapes());
 			}
 			return shapes;
+		}
+
+		public Paint getColor() {
+			// TODO Auto-generated method stub
+			return Color.valueOf(getProperty(getClass().getName() + "." + getName(), "black"));
 		}
 	}
 

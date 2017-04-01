@@ -1,6 +1,8 @@
 package project4;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.WindowConstants;
 
@@ -28,7 +30,7 @@ public class DrawableProjectClass implements Drawable {
 
 	@Override
 	public void makeDrawSet(DrawPanel canvas) {
-		// TODO Auto-generated method stub
+		canvas.addShape(Color.RED, new Ellipse2D.Double(100, 100, 500, 500));
 
 	}
 
