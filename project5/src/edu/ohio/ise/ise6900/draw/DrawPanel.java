@@ -7,7 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 
 public class DrawPanel extends Group {
-	Collection<Drawable> targets = new ArrayList();
+	Collection<Drawable> targets = new ArrayList<Drawable>();
 
 	public DrawPanel () {
 		
@@ -21,8 +21,7 @@ public class DrawPanel extends Group {
 	}
 
 	public DrawPanel(double width, double height) {
-//		super(width, height);
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public void addTarget (Drawable t) {
