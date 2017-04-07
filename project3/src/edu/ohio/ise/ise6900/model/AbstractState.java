@@ -68,8 +68,13 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	}
 
 	public Collection<Shape> makeShapes() {
-
 		Collection<Shape> shapes = new ArrayList<Shape>();
+		Shape r =makeShape();
+		shapes.add(r);
+		return shapes;
+	}
+	
+	protected Shape makeShape () {
 		Line line = new Line (OFFSET + SCALE * startTime,machine.getY(), OFFSET + SCALE * endTime,machine.getY());
 		line.setStrokeWidth(5.0);
 		line.setStroke(state().getColor());
@@ -79,12 +84,8 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 		r.setFill(state().getColor());
 		Tooltip t = new Tooltip(toString());
 		Tooltip.install(r, t);
-		shapes.add(r);
-		return shapes;
+		return r;
 	}
-
-
-
 }
 
 enum StateOption { BUSY(Color.GREEN), IDLE(Color.YELLOW), DOWN(Color.RED), BLOCKED(Color.BLUE);

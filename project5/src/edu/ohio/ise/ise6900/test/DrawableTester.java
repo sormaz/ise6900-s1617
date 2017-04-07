@@ -22,7 +22,6 @@ public class DrawableTester  implements Drawable {
 	public static void main(String[] args) {
 		DrawableTester dt = new DrawableTester();
 		dt.display(args);
-
 	}
 
 	@Override
@@ -42,7 +41,4 @@ public class DrawableTester  implements Drawable {
 		da.getCanvas().addTarget(this);
 		da.main(args);
 	}
-
-
-
 }
