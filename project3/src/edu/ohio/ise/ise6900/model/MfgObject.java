@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -69,16 +70,20 @@ public abstract class MfgObject implements Drawable {
 	
 	public abstract void printout ();
 	
-	public void display (String [] args) {
+	public void display (String [] args) throws InvocationTargetException {
 		da.getCanvas().getChildren().clear();
 		da.getCanvas().clear();
 		da.getCanvas().addTarget(this);
-		try {
-			da.main(args);
-		} catch (Exception e) {
-			// this does not work still thread problem
-			da.show();
-		}
+//		try {
+			try {
+				da.main(args);
+			} catch (Exception e) {
+				throw new InvocationTargetException(e, "error");
+			}
+//		} catch (Exception e) {
+//			// this does not work still thread problem
+//			da.show();
+//		}
 
 	}
 	

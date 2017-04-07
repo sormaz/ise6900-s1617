@@ -3,6 +3,7 @@ package edu.ohio.ise.ise6900.model;
 
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static edu.ohio.ise.ise6900.app.MfgSystemApplication.*;
@@ -13,12 +14,12 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 public class MfgSystem extends MfgObject {
-	
+
 	static Properties properties;
-	
+
 	Map<String,Job> jobs;
 	Map<String,Machine> machines;
-	
+
 	static {
 		properties = new Properties();
 		try {
@@ -30,10 +31,10 @@ public class MfgSystem extends MfgObject {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			
+
 		}
 	}
-	
+
 
 	public MfgSystem(String n) {
 		super(n);
@@ -44,7 +45,7 @@ public class MfgSystem extends MfgObject {
 		this(f.getName());
 		read(f);
 	}
-	
+
 	public void addJob(Job j) throws AlreadyMemberException {
 		try {
 			findJob(j.getName());
@@ -65,7 +66,7 @@ public class MfgSystem extends MfgObject {
 		for (Job j : jobs.values()) {
 			System.out.println(j.toString());
 		}
-		
+
 	}
 
 	public void addMachine(Machine m) throws AlreadyMemberException {
@@ -81,52 +82,52 @@ public class MfgSystem extends MfgObject {
 		for (Machine m : machines.values()) {
 			System.out.println(m.toString());
 		}
-		
+
 	}
-	
+
 	public Machine findMachine(String machineName) throws UnknownObjectException{
 		Machine machine =  machines.get(machineName);
 		if (machine == null)
 			throw new UnknownObjectException("Machine with name " + machineName + " does not exist.");
 		return machine;
 	}
-	
+
 	public String toString () {
 		return "MfgSystem " + getName() + "contains " + jobs.size() + " Jobs and "  + machines.size() + " machines";
-		
+
 	}
-	
+
 	public void printout () {
 		System.out.println(toString());
 	}
 
 	public void deleteJob(String name) throws UnknownObjectException{
-		
+
 		Job j = jobs.remove(name);
 		if (j == null) {
 			throw new UnknownObjectException ("Job " + name + " did not exist in the mfg system " + getName());
 		}
-		
+
 	}
-	
+
 	public void deleteMachine(String name) throws UnknownObjectException{
-		
+
 		Machine m = machines.remove(name);
 		if (m == null) {
 			throw new UnknownObjectException ("Machine " + name + " did not exist in the mfg system " + getName());
 		}
-		
+
 	}
-	
+
 	public void read (File f) throws FileNotFoundException {
 		read (new BufferedInputStream (new FileInputStream(f)));
 	}
-	
+
 	public  void read (InputStream is) {
-		
+
 		Scanner sc = new Scanner(is);
 		StringTokenizer tokenizer;
-		
+
 		PrintStream errStream = System.err;
 		// String input;
 		try {
@@ -142,12 +143,12 @@ public class MfgSystem extends MfgObject {
 
 				tokenizer = new StringTokenizer(input);
 				String commandString;
-				
+
 				// read command, if aempty line loop silently 
 				try {
 					commandString = tokenizer.nextToken();
 				} catch (Exception e1) {
-//					 errStream.println("No input specified");
+					//					 errStream.println("No input specified");
 					continue;
 				}
 				// check for comment - starts with #, if comment line, loop silently 
@@ -302,7 +303,7 @@ public class MfgSystem extends MfgObject {
 						break;
 					}
 					default:
-					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+						errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}
 					break;
 				}
@@ -358,7 +359,7 @@ public class MfgSystem extends MfgObject {
 						break;
 					}
 					default:
-					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+						errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}
 					break;
 				}
@@ -383,9 +384,9 @@ public class MfgSystem extends MfgObject {
 					} catch (IllegalArgumentException e) {
 						errStream.println("State type " + stateType + " is not defined" );
 					}
-//					catch (AlreadyMemberException e) {
-//						errStream.println(e.getMessage());
-//					}
+					//					catch (AlreadyMemberException e) {
+					//						errStream.println(e.getMessage());
+					//					}
 
 					break;
 				}
@@ -417,11 +418,11 @@ public class MfgSystem extends MfgObject {
 
 				case RECTANGLE: {
 					try {
-					double x = Double.parseDouble(tokenizer.nextToken());
-					double y = Double.parseDouble(tokenizer.nextToken());
-					double w = Double.parseDouble(tokenizer.nextToken());
-					double h = Double.parseDouble(tokenizer.nextToken());
-					Rectangle r = new Rectangle(x,y,w,h);
+						double x = Double.parseDouble(tokenizer.nextToken());
+						double y = Double.parseDouble(tokenizer.nextToken());
+						double w = Double.parseDouble(tokenizer.nextToken());
+						double h = Double.parseDouble(tokenizer.nextToken());
+						Rectangle r = new Rectangle(x,y,w,h);
 					}
 					catch (NoSuchElementException e) {
 						errStream.println("Job for features listing needs to be specified! ");
@@ -431,11 +432,11 @@ public class MfgSystem extends MfgObject {
 				case TRIANGLE:
 				{
 					try {
-					double x = Double.parseDouble(tokenizer.nextToken());
-					double y = Double.parseDouble(tokenizer.nextToken());
-					double b = Double.parseDouble(tokenizer.nextToken());
-					double h = Double.parseDouble(tokenizer.nextToken());
-					Triangle r = new Triangle(x,y,b,h);
+						double x = Double.parseDouble(tokenizer.nextToken());
+						double y = Double.parseDouble(tokenizer.nextToken());
+						double b = Double.parseDouble(tokenizer.nextToken());
+						double h = Double.parseDouble(tokenizer.nextToken());
+						Triangle r = new Triangle(x,y,b,h);
 					}
 					catch (NoSuchElementException e) {
 						errStream.println("Job for features listing needs to be specified! ");
@@ -466,7 +467,10 @@ public class MfgSystem extends MfgObject {
 							a.display(null);						
 						} catch (UnknownObjectException e) {
 							errStream.println(e.getMessage());
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
+
 						break;
 					}
 					case 2: {
@@ -479,6 +483,9 @@ public class MfgSystem extends MfgObject {
 							f.display(null);
 						} catch (UnknownObjectException e) {
 							errStream.println(e.getMessage());
+
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
 						break;
 					}
@@ -497,16 +504,24 @@ public class MfgSystem extends MfgObject {
 								m.display(null);
 							} catch (UnknownObjectException e1) {
 								errStream.println(e1.getMessage());
-							}	
+							} catch (InvocationTargetException ex) {
+								errStream.println("JavaFX application is already started. Can not call display again!");
+							}
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
 						break;
 					}
 					case 0: {
-						display(null);
-						break;
+						try {
+							display(null);
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
+						break;
+					}
 					default:
-					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+						errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
 					}
 					break;
 				}
@@ -530,23 +545,23 @@ public class MfgSystem extends MfgObject {
 	}
 	public List<Machine> getMachines() {
 		// TODO Auto-generated method stub
-		 return new ArrayList(machines.values());
+		return new ArrayList(machines.values());
 	}
-	
+
 	public Collection<Job> getJobs() {
 		// TODO Auto-generated method stub
 		return jobs.values();
 	}
-	
+
 	@Override
 	public Collection<Shape> makeShapes() {
 		Collection<Shape> shapes = new ArrayList<Shape>();
 		for (Machine m : machines.values()) {
-		shapes.addAll(m.makeShapes());
+			shapes.addAll(m.makeShapes());
 		}
 		return shapes;
 	}
-	
+
 	public static void main (String [] args) {
 		MfgSystem ms = new MfgSystem("");
 		try {

@@ -2,6 +2,7 @@
 package edu.ohio.ise.ise6900.app;
 
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -390,6 +391,8 @@ public class MfgSystemApplication {
 							a.display(null);						
 						} catch (UnknownObjectException e) {
 							errStream.println(e.getMessage());
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
 						break;
 					}
@@ -403,6 +406,8 @@ public class MfgSystemApplication {
 							f.display(null);
 						} catch (UnknownObjectException e) {
 							errStream.println(e.getMessage());
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
 						break;
 					}
@@ -421,12 +426,21 @@ public class MfgSystemApplication {
 								m.display(null);
 							} catch (UnknownObjectException e1) {
 								errStream.println(e1.getMessage());
+							} catch (InvocationTargetException ex) {
+								errStream.println("JavaFX application is already started. Can not call display again!");
 							}	
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
 						}
 						break;
 					}
 					case 0: {
-						ms.display(null);
+						try {
+							ms.display(null);
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
 						}
 					default:

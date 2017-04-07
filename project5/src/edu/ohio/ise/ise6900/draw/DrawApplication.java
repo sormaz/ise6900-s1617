@@ -41,14 +41,14 @@ public class DrawApplication extends Application {
 	 * attempt to avoid crash when the second display is called
 	 * it does not work
 	 */
-	public void show() {
-		Thread th = new Thread() {
-			public void run ()  {
-				stage = new Stage();
-				DrawApplication.this.start(stage);	
-			}
-		};
-		th.start();
-	}
+//	public void show() {
+//		Thread th = new Thread() {
+//			public void run ()  {
+//				stage = new Stage();
+//				DrawApplication.this.start(stage);	
+//			}
+//		};
+//		th.start();
+//	}
 
 }
