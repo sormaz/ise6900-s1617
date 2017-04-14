@@ -5,6 +5,7 @@ import java.util.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 public class Machine extends MfgObject {
 	
@@ -40,6 +41,7 @@ public class Machine extends MfgObject {
 		Collection<Shape> shapes = new ArrayList<Shape>();
 		for (AbstractState a : states) {
 		shapes.addAll(a.makeShapes());
+		shapes.add(new Text(OFFSET-50, getY() + HEIGHT/2, getName()));
 		}
 		return shapes;
 	}

@@ -56,7 +56,7 @@
             <TreeView prefHeight="190.0" prefWidth="328.0" BorderPane.alignment="CENTER" />
          </right>
          <left>
-            <ListView prefHeight="150.0" prefWidth="338.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="machineList" prefHeight="150.0" prefWidth="338.0" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </children>

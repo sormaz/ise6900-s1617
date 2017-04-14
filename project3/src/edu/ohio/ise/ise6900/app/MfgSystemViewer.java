@@ -9,9 +9,11 @@ import java.net.URL;
 import edu.ohio.ise.ise6900.draw.DrawPanel;
 import edu.ohio.ise.ise6900.model.MfgSystem;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -23,6 +25,8 @@ public class MfgSystemViewer extends Application {
 
 	public static DrawPanel canvas = new DrawPanel();
 	MfgSystem ms;
+	@FXML
+	private ListView machineList;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,6 +45,7 @@ public class MfgSystemViewer extends Application {
 		Scene scene = new Scene(root, 1000, 600);
 		try {
 			Parent p = (Parent) FXMLLoader.load(getClass().getResource("mfg-system-viewer.fxml"));
+			
 			root.setTop(p);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
