@@ -28,7 +28,7 @@ public class MfgSystemFXApp2 extends Application {
 	}
 
 	public static DrawPanel canvas = new DrawPanel();
-	MfgSystem ms;
+	public static MfgSystem ms;
 	@FXML
 	private ListView machineList;
 
@@ -37,13 +37,13 @@ public class MfgSystemFXApp2 extends Application {
 		Parameters parameters = this.getParameters();
 		System.out.println("params: " + parameters);
 		
-		try {
-			ms = new MfgSystem(new File (parameters.getUnnamed().get(0)));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("File not found, making emptty MfgSystem");
-			ms = new MfgSystem ("Empty");
-		}
+//		try {
+//			ms = new MfgSystem(new File (parameters.getUnnamed().get(0)));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			System.out.println("File not found, making emptty MfgSystem");
+//			ms = new MfgSystem ("Empty");
+//		}
 		primaryStage.setTitle("Manufacturing System Viewer - FSS 2.1");
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1000, 600);
@@ -63,38 +63,13 @@ public class MfgSystemFXApp2 extends Application {
 			
 			root.setTop(p);
 
-		canvas.addTarget(ms);
+//		canvas.addTarget(ms);
 		canvas.makeShapes();
 		root.setCenter(canvas);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
-	@FXML
-	private void handleOpenFileAction(ActionEvent event) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open STL File");
-
-		File existDirectory = 
-				new File(".");
-
-		if(existDirectory.exists()) {
-			fileChooser.setInitialDirectory(existDirectory);
-		} else {
-			fileChooser.setInitialDirectory(new File("."));
-		}
-
-		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("STL File", "*.stl"),
-				new ExtensionFilter("All Files", "*.*"));
-		File selectedFile = fileChooser.showOpenDialog(null);
-		if (selectedFile != null) {
-			System.out.println("--->selected file is " +  selectedFile);
-		}
-	}
-	
-	
-
 	public static void main(String[] args) {
 		launch(args);
 

@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ohio.ise.ise6900.app.MfgSystemFXApp2">
+<AnchorPane prefHeight="400.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ohio.ise.ise6900.gui.MfgController">
    <children>
       <BorderPane prefHeight="304.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -24,7 +24,18 @@
                       </Menu>
                       <Menu mnemonicParsing="false" text="Edit">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem fx:id="addJobMI" mnemonicParsing="false" onAction="#handleAddJobAction" text="Add Job" />
+                        <MenuItem fx:id="addMachMI" mnemonicParsing="false" onAction="#handleAddMachAction" text="Add Machine" />
+                        <MenuItem fx:id="addFeatureMI" mnemonicParsing="false" onAction="#handleAddFeatureAction" text="Add Feature" />
+                        <MenuItem fx:id="addStateMI" mnemonicParsing="false" onAction="#handleAddStateAction" text="Add State" />
+                        <MenuItem fx:id="addActMI" mnemonicParsing="false" onAction="#handleAddActAction" text="Add Activity" />
+                          <MenuItem fx:id="deleteMI" mnemonicParsing="false" onAction="#handleDeleteAction" text="Delete" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="View">
+                        <items>
+                        <MenuItem fx:id="zoomInMI" mnemonicParsing="false" onAction="#handleZoomInAction" text="Zoom In" />
+                        <MenuItem fx:id="zoomOutMI" mnemonicParsing="false" onAction="#handleZoomOutAction" text="Zoom Out" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">
@@ -36,7 +47,14 @@
                   </MenuBar>
                   <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
-                      <Button mnemonicParsing="false" text="Button" />
+                      <Button fx:id="openFileBtn" mnemonicParsing="false" onAction="#handleOpenFileAction" text="Open" />
+                      <Button fx:id="saveFileBtn" mnemonicParsing="false" onAction="#handleSaveFileAction" text="Save" />
+                      <Button fx:id="addJobBtn" mnemonicParsing="false" onAction="#handleAddJobAction" text="AddJ" />
+                      <Button fx:id="addMachBtn" mnemonicParsing="false" onAction="#handleAddMachAction" text="AddM" />
+                      <Button fx:id="addFeatureBtn" mnemonicParsing="false" onAction="#handleAddFeatureAction" text="AddF" />
+                      <Button fx:id="addStateBtn" mnemonicParsing="false" onAction="#handleAddStateAction" text="AddS" />
+                      <Button fx:id="addActBtn" mnemonicParsing="false" onAction="#handleAddActAction" text="AddA" />
+                      <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#handleDeleteAction" text="Del" />
                     </items>
                   </ToolBar>
                </children>
@@ -55,7 +73,7 @@
             </HBox>
          </center>
          <right>
-            <TreeView prefHeight="190.0" prefWidth="328.0" BorderPane.alignment="CENTER" />
+            <TreeView id="jobTreeView" fx:id="jobTreeView" prefHeight="190.0" prefWidth="328.0" BorderPane.alignment="CENTER" />
          </right>
          <left>
             <ListView id="machineList" fx:id="machineList" prefHeight="150.0" prefWidth="338.0" BorderPane.alignment="CENTER" />
