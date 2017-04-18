@@ -120,8 +120,10 @@ public class MfgSystem extends MfgObject {
 	}
 
 	public void read (File f) throws FileNotFoundException {
+		this.setName(f.getPath());
 		read (new BufferedInputStream (new FileInputStream(f)));
 	}
+
 
 	public  void read (InputStream is) {
 

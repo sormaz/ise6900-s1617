@@ -64,6 +64,11 @@ public abstract class MfgObject implements Drawable {
 		return name;
 	}
 	
+	public void setName(String n) {
+		name = n;
+		
+	}
+	
 	public String toString() {
 		return name;
 	}

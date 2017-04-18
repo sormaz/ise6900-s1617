@@ -23,10 +23,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.sun.javafx.collections.ObservableListWrapper;
@@ -108,7 +111,7 @@ public class MfgController {
 			System.out.println("--->selected file is " +  selectedFile);
 			try {
 				ms.read(selectedFile);
-				canvas.repaint(ms);
+				canvas.updateUI(ms);
 //				machineList.setItems(new ObservableListWrapper<Machine>(ms.getMachines()));
 		    	machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
 //				jobTreeView = new TreeView<MfgObject>(makeMfgSystemTree(ms));
@@ -139,12 +142,26 @@ public class MfgController {
     void handleAddMachAction(ActionEvent event) {
 //    	actionNotImplemented("add machine");
     	String name = "dnsMachine";
-    	try {
-			ms.addMachine(new Machine(name));
-			machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
-		} catch (AlreadyMemberException e) {
-			actinoCanNotComplete(name);
-		}
+    	TextInputDialog dialog = new TextInputDialog("walter");
+    	dialog.setTitle("Text Input Dialog");
+    	dialog.setHeaderText("Look, a Text Input Dialog");
+    	dialog.setContentText("Please enter your name:");
+
+    	// Traditional way to get the response value.
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()){
+    	    System.out.println("Your name: " + result.get());
+        	try {
+    			ms.addMachine(new Machine(result.get()));
+    			machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
+    		} catch (AlreadyMemberException e) {
+    			actionCanNotComplete(result.get());
+    		}
+    	}
+
+    	// The Java 8 way to get the response value (with lambda expression).
+//    	result.ifPresent(name -> System.out.println("Your name: " + name));
+
     }
 
     @FXML
@@ -184,7 +201,7 @@ public class MfgController {
     	alert.setContentText("Action for " + action + " is not implemented yet!");
     	alert.showAndWait();
     }
-    void actinoCanNotComplete (String name) {
+    void actionCanNotComplete (String name) {
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.setTitle("Can not add object!" );
     	alert.setHeaderText(null);

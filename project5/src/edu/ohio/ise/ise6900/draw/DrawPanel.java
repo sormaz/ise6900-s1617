@@ -40,7 +40,7 @@ public class DrawPanel extends Group {
 		}
 	}
 	
-	public void repaint (Drawable d) {
+	public void updateUI (Drawable d) {
 		clear();
 		addTarget(d);
 		makeShapes();
