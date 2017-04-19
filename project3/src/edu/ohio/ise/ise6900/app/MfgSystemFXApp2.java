@@ -13,9 +13,11 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -46,13 +48,16 @@ public class MfgSystemFXApp2 extends Application {
 //		}
 		primaryStage.setTitle("Manufacturing System Viewer - FSS 2.1");
 		BorderPane root = new BorderPane();
+//		root.setDividerPosition(0, 150);
+//		root.setOrientation(Orientation.HORIZONTAL);
+
 		Scene scene = new Scene(root, 1000, 600);
 		
 		Parent p = null;
 		try {
 			 p = (Parent) FXMLLoader.load(getClass().getResource("mfg-system-fxapp.fxml"));
 			
-			root.setTop(p);
+//			root.getItems().add(p);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +70,7 @@ public class MfgSystemFXApp2 extends Application {
 
 //		canvas.addTarget(ms);
 		canvas.makeShapes();
+//		root.getItems().add(canvas);
 		root.setCenter(canvas);
 		primaryStage.setScene(scene);
 		primaryStage.show();
