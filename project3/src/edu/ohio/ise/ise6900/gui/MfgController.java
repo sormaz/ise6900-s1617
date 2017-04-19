@@ -92,7 +92,7 @@ public class MfgController {
     @FXML
     void handleOpenFileAction(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open STL File");
+		fileChooser.setTitle("Open MFG File");
 
 		File existDirectory = 
 				new File(".");
@@ -112,9 +112,7 @@ public class MfgController {
 			try {
 				ms.read(selectedFile);
 				canvas.updateUI(ms);
-//				machineList.setItems(new ObservableListWrapper<Machine>(ms.getMachines()));
 		    	machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
-//				jobTreeView = new TreeView<MfgObject>(makeMfgSystemTree(ms));
 				jobTreeView.setRoot(makeMfgSystemTree(ms));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -140,7 +138,7 @@ public class MfgController {
 
     @FXML
     void handleAddMachAction(ActionEvent event) {
-//    	actionNotImplemented("add machine");
+
     	String name = "dnsMachine";
     	TextInputDialog dialog = new TextInputDialog("walter");
     	dialog.setTitle("Text Input Dialog");
