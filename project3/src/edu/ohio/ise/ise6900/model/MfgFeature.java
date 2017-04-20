@@ -6,6 +6,7 @@ import java.util.Collection;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 public class MfgFeature extends MfgObject {
 	
@@ -32,6 +33,7 @@ public class MfgFeature extends MfgObject {
 				line.setStrokeWidth(5.0);
 				line.setStroke(Color.RED);
 		shapes.add(line);
+		shapes.add(new Text(50,60,getName()));
 		return shapes;
 	}
 

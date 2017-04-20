@@ -575,6 +575,11 @@ public class MfgSystem extends MfgObject {
 //			e.printStackTrace();
 //		}
 	}
+	public void clear() {
+		jobs.clear();
+		machines.clear();
+		
+	}
 
 
 }

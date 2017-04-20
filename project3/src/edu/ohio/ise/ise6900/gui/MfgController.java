@@ -14,6 +14,8 @@ import edu.ohio.ise.ise6900.model.MfgObject;
 import edu.ohio.ise.ise6900.model.MfgSystem;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,59 +40,59 @@ import com.sun.javafx.collections.ObservableListWrapper;
 
 
 public class MfgController {
-	 MfgSystem ms;
-	 DrawPanel canvas;
-	
+	MfgSystem ms;
+	DrawPanel canvas;
 
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
 
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
+	@FXML // ResourceBundle that was given to the FXMLLoader
+	private ResourceBundle resources;
 
-    @FXML // fx:id="saveFileBtn"
-    private Button saveFileBtn; // Value injected by FXMLLoader
+	@FXML // URL location of the FXML file that was given to the FXMLLoader
+	private URL location;
 
-    @FXML // fx:id="saveMI"
-    private MenuItem saveMI; // Value injected by FXMLLoader
+	@FXML // fx:id="saveFileBtn"
+	private Button saveFileBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="closeMI"
-    private MenuItem closeMI; // Value injected by FXMLLoader
+	@FXML // fx:id="saveMI"
+	private MenuItem saveMI; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addFeatureBtn"
-    private Button addFeatureBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="closeMI"
+	private MenuItem closeMI; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addJobBtn"
-    private Button addJobBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="addFeatureBtn"
+	private Button addFeatureBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addStateBtn"
-    private Button addStateBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="addJobBtn"
+	private Button addJobBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="openFileMI"
-    private MenuItem openFileMI; // Value injected by FXMLLoader
+	@FXML // fx:id="addStateBtn"
+	private Button addStateBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="openFileBtn"
-    private Button openFileBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="openFileMI"
+	private MenuItem openFileMI; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addMachBtn"
-    private Button addMachBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="openFileBtn"
+	private Button openFileBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addActBtn"
-    private Button addActBtn; // Value injected by FXMLLoader
+	@FXML // fx:id="addMachBtn"
+	private Button addMachBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="machineList"
-    private ListView<Machine> machineList; // Value injected by FXMLLoader
+	@FXML // fx:id="addActBtn"
+	private Button addActBtn; // Value injected by FXMLLoader
 
-    @FXML
-    private TreeView<MfgObject> jobTreeView;
-    
-    @FXML // fx:id="deleteBtn"
-    private Button deleteBtn; // Value injected by FXMLLoader
-    
-    protected ListProperty<Machine> machListProperty = new SimpleListProperty<Machine>();
+	@FXML // fx:id="machineList"
+	private ListView<Machine> machineList; // Value injected by FXMLLoader
 
-    @FXML
-    void handleOpenFileAction(ActionEvent event) {
+	@FXML
+	private TreeView<MfgObject> jobTreeView;
+
+	@FXML // fx:id="deleteBtn"
+	private Button deleteBtn; // Value injected by FXMLLoader
+
+	protected ListProperty<Machine> machListProperty = new SimpleListProperty<Machine>();
+
+	@FXML
+	void handleOpenFileAction(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open MFG File");
 
@@ -110,9 +112,12 @@ public class MfgController {
 		if (selectedFile != null) {
 			System.out.println("--->selected file is " +  selectedFile);
 			try {
+				ms.clear();
 				ms.read(selectedFile);
 				canvas.updateUI(ms);
+
 		    	machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
+
 				jobTreeView.setRoot(makeMfgSystemTree(ms));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -188,9 +193,12 @@ public class MfgController {
     }
     
     @FXML
-    void handleZoomOutAction(ActionEvent event) {
-    	actionNotImplemented("zoom out");
-    }
+	void handleZoomOutAction(ActionEvent event) {
+		MfgObject.SCALE *= 0.8;
+		MfgObject.HEIGHT *= 0.8;
+		canvas.getChildren().clear();
+		canvas.makeShapes();
+	}
     
     void actionNotImplemented (String action) {
     	Alert alert = new Alert(AlertType.INFORMATION);
@@ -213,7 +221,22 @@ public class MfgController {
     	ms = new MfgSystem("empty");
     	canvas = MfgSystemFXApp2.canvas;
     	machineList.itemsProperty().bind(machListProperty);
-
+		machineList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Machine>() {
+			@Override
+			public void changed(ObservableValue<? extends Machine> observable, Machine oldValue, Machine newValue) {
+				canvas.updateUI(newValue);
+			}
+		});
+		
+		jobTreeView.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<TreeItem<MfgObject>>() {
+			@Override
+			public void changed(ObservableValue<? extends TreeItem<MfgObject>> observable, TreeItem<MfgObject> oldValue,
+					TreeItem<MfgObject> newValue) {
+				TreeItem<MfgObject> selectedItem = newValue;
+				canvas.updateUI(selectedItem.getValue());
+			}
+		});
+		
         assert saveFileBtn != null : "fx:id=\"saveFileBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
         assert saveMI != null : "fx:id=\"saveMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
         assert closeMI != null : "fx:id=\"closeMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
@@ -229,15 +252,16 @@ public class MfgController {
 
     }
     
+
 	public TreeItem<MfgObject> makeMfgSystemTree(MfgSystem ms) {
 		TreeItem<MfgObject> item = new TreeItem<MfgObject>(ms);
 		for (Job j : ms.getJobs()) {
 			item.getChildren().add(makeJobTree(j));
 		}
 		return item;
-		
+
 	}
-	
+
 	public TreeItem<MfgObject> makeJobTree (Job j) {
 		TreeItem<MfgObject> item = new TreeItem<MfgObject>(j);
 		for (MfgFeature f : j.getFeatures()) {
