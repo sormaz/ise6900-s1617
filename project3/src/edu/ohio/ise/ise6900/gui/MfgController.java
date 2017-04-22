@@ -30,6 +30,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -115,7 +117,9 @@ public class MfgController {
 				ms.clear();
 				ms.read(selectedFile);
 				canvas.updateUI(ms);
-
+				Window w = canvas.getScene().getWindow();
+				Stage s = (Stage) w;	
+				s.setTitle("changed title");
 		    	machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
 
 				jobTreeView.setRoot(makeMfgSystemTree(ms));
