@@ -51,7 +51,7 @@ printout P2
 #display
 
 delete M3
-delete M3 P2 step_3
+#delete M3 P2 step_3
 
 
 
