@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 public class Job extends MfgObject {
 	
@@ -120,6 +121,8 @@ public class Job extends MfgObject {
 			Collection<Shape> shapes = new ArrayList<Shape>();
 			for (Activity a : activities) {
 			shapes.addAll(a.makeShapes());
+			Machine m = a.getMchine();
+			shapes.add(new Text(OFFSET-50, m.getY() + HEIGHT/2, m.getName()));
 			}
 			return shapes;
 		}
