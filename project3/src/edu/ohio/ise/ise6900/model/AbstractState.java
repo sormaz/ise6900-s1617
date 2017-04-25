@@ -34,8 +34,12 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	public double duration () {
 		return endTime - startTime;
 	}
-	public Machine getMchine () {
+	public Machine getMachine () {
 		return machine;
+	}
+	
+	public double getStartTime() {
+		return startTime;
 	}
 
 	@Override
