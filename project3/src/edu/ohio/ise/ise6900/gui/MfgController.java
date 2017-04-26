@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
@@ -119,8 +120,8 @@ public class MfgController {
 				canvas.updateUI(ms);
 				Window w = canvas.getScene().getWindow();
 				Stage s = (Stage) w;	
-				s.setTitle("changed title");
-		    	machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
+				//				s.setTitle("changed title");
+				machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
 
 				jobTreeView.setRoot(makeMfgSystemTree(ms));
 			} catch (FileNotFoundException e) {
@@ -128,110 +129,149 @@ public class MfgController {
 				e.printStackTrace();
 			}
 		}
-    }
+	}
 
-    @FXML
-    void handleSaveFileAction(ActionEvent event) {
-    	actionNotImplemented("save file");
-    }
+	@FXML
+	void handleSaveFileAction(ActionEvent event) {
+		actionNotImplemented("save file");
+	}
 
-    @FXML
-    void handleCloseAction(ActionEvent event) {
-    	actionNotImplemented("close");
-    }
+	@FXML
+	void handleCloseAction(ActionEvent event) {
+		actionNotImplemented("close");
+	}
 
-    @FXML
-    void handleAddJobAction(ActionEvent event) {
-    	actionNotImplemented("add job");
-    }
+	@FXML
+	void handleAddJobAction(ActionEvent event) {
+		    	actionNotImplemented("add job");
 
-    @FXML
-    void handleAddMachAction(ActionEvent event) {
+	}
 
-    	String name = "dnsMachine";
-    	TextInputDialog dialog = new TextInputDialog("walter");
-    	dialog.setTitle("Text Input Dialog");
-    	dialog.setHeaderText("Look, a Text Input Dialog");
-    	dialog.setContentText("Please enter your name:");
+	@FXML
+	void handleAddMachAction(ActionEvent event) {
 
-    	// Traditional way to get the response value.
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()){
-    	    System.out.println("Your name: " + result.get());
-        	try {
-    			ms.addMachine(new Machine(result.get()));
-    			machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
-    		} catch (AlreadyMemberException e) {
-    			actionCanNotComplete(result.get());
-    		}
-    	}
+		String name = "dnsMachine";
+		TextInputDialog dialog = new TextInputDialog("walter");
+		dialog.setTitle("Text Input Dialog");
+		dialog.setHeaderText("Look, a Text Input Dialog");
+		dialog.setContentText("Please enter your name:");
 
-    	// The Java 8 way to get the response value (with lambda expression).
-//    	result.ifPresent(name -> System.out.println("Your name: " + name));
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			System.out.println("Your name: " + result.get());
+			try {
+				ms.addMachine(new Machine(result.get()));
+				machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
+			} catch (AlreadyMemberException e) {
+				actionCanNotComplete(result.get());
+			}
+		}
+	}
 
-    }
+	@FXML
+	void handleAddFeatureAction(ActionEvent event) {
+		//    	actionNotImplemented("add feature");
+		String name = "Add Feature";
+		TreeItem<MfgObject> ti = jobTreeView.selectionModelProperty().get().getSelectedItem();
 
-    @FXML
-    void handleAddFeatureAction(ActionEvent event) {
-    	actionNotImplemented("add feature");
-    }
+		if (ti != null ) {
+			MfgObject o = ti.getValue();
+			if ( o instanceof Job) {
+				TextInputDialog dialog = new TextInputDialog("f1");
+				dialog.setTitle(name);
+				dialog.setHeaderText("Look, a Text Input Dialog");
+				dialog.setContentText("Please enter your name:");
 
-    @FXML
-    void handleAddStateAction(ActionEvent event) {
-    	actionNotImplemented("add state");
-    }
+				// Traditional way to get the response value.
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()){
+					System.out.println("Your name: " + result.get());
+					try {
+						Job j = (Job) o;
+						MfgFeature f = new MfgFeature(result.get());
+						j.addFeature(f);
+//						machListProperty.set(FXCollections.observableArrayList(ms.getMachines()));
+//						jobTreeView.setRoot(makeMfgSystemTree(ms));
+//						ObservableList<TreeItem<MfgObject>> ch = jobTreeView.getRoot().getChildren();
+						TreeItem<MfgObject> n = findTreeItem(jobTreeView.getRoot(), j);
+//						jobTreeView.getRoot().getChildren().remove(n);
+						n.getChildren().add(makeJobTree(f));
+//						jobTreeView.getRoot().getChildren().
+						jobTreeView.refresh();
+//						jobTreeView.getSelectionModel().select(jobTreeView.getRoot());
+					} catch (AlreadyMemberException e) {
+						actionCanNotComplete(result.get());
+					}
+				}
+			}
+			else {
+				actionCanNotComplete("Feature can not be added if job is not selected");
+			}
+		}
+		else {
+			actionCanNotComplete("Feature can not be added if job is not selected");
+		}
+	}
 
-    @FXML
-    void handleAddActAction(ActionEvent event) {
-    	actionNotImplemented("add activity");
-    }
 
-    @FXML
-    void handleDeleteAction(ActionEvent event) {
-    	actionNotImplemented("delete");
-    }
-    
-    @FXML
-    void handleZoomInAction(ActionEvent event) {
-    	actionNotImplemented("zoom iin");
-    }
-    
-    @FXML
+
+	@FXML
+	void handleAddStateAction(ActionEvent event) {
+		actionNotImplemented("add state");
+	}
+
+	@FXML
+	void handleAddActAction(ActionEvent event) {
+		actionNotImplemented("add activity");
+	}
+
+	@FXML
+	void handleDeleteAction(ActionEvent event) {
+		actionNotImplemented("delete");
+	}
+
+	@FXML
+	void handleZoomInAction(ActionEvent event) {
+		actionNotImplemented("zoom iin");
+	}
+
+	@FXML
 	void handleZoomOutAction(ActionEvent event) {
 		MfgObject.SCALE *= 0.8;
 		MfgObject.HEIGHT *= 0.8;
 		canvas.getChildren().clear();
 		canvas.makeShapes();
 	}
-    
-    void actionNotImplemented (String action) {
-    	Alert alert = new Alert(AlertType.INFORMATION);
-    	alert.setTitle("I have a great message for you!" );
-    	alert.setHeaderText(null);
-    	alert.setContentText("Action for " + action + " is not implemented yet!");
-    	alert.showAndWait();
-    }
-    void actionCanNotComplete (String name) {
-    	Alert alert = new Alert(AlertType.INFORMATION);
-    	alert.setTitle("Can not add object!" );
-    	alert.setHeaderText(null);
-    	alert.setContentText("Object with " + name + " already exists!");
-    	alert.showAndWait();
-    }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
-    	System.out.println("in initialize in controller");
-    	ms = new MfgSystem("empty");
-    	canvas = MfgSystemFXApp2.canvas;
-    	machineList.itemsProperty().bind(machListProperty);
+	void actionNotImplemented (String action) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("I have a great message for you!" );
+		alert.setHeaderText(null);
+		alert.setContentText("Action for " + action + " is not implemented yet!");
+		alert.showAndWait();
+	}
+	void actionCanNotComplete (String name) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Can not add object!" );
+		alert.setHeaderText(null);
+		alert.setContentText("Object with " + name + " already exists!");
+		alert.showAndWait();
+	}
+
+	@FXML // This method is called by the FXMLLoader when initialization is complete
+	void initialize() {
+		System.out.println("in initialize in controller");
+		ms = new MfgSystem("empty");
+		canvas = MfgSystemFXApp2.canvas;
+		machineList.itemsProperty().bind(machListProperty);
 		machineList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Machine>() {
 			@Override
 			public void changed(ObservableValue<? extends Machine> observable, Machine oldValue, Machine newValue) {
 				canvas.updateUI(newValue);
 			}
 		});
-		
+
 		jobTreeView.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<TreeItem<MfgObject>>() {
 			@Override
 			public void changed(ObservableValue<? extends TreeItem<MfgObject>> observable, TreeItem<MfgObject> oldValue,
@@ -240,22 +280,22 @@ public class MfgController {
 				canvas.updateUI(selectedItem.getValue());
 			}
 		});
-		
-        assert saveFileBtn != null : "fx:id=\"saveFileBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert saveMI != null : "fx:id=\"saveMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert closeMI != null : "fx:id=\"closeMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert addFeatureBtn != null : "fx:id=\"addFeatureBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert addJobBtn != null : "fx:id=\"addJobBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert addStateBtn != null : "fx:id=\"addStateBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert openFileMI != null : "fx:id=\"openFileMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert openFileBtn != null : "fx:id=\"openFileBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert addMachBtn != null : "fx:id=\"addMachBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert addActBtn != null : "fx:id=\"addActBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert machineList != null : "fx:id=\"machineList\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
-        assert deleteBtn != null : "fx:id=\"deleteBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
 
-    }
-    
+		assert saveFileBtn != null : "fx:id=\"saveFileBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert saveMI != null : "fx:id=\"saveMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert closeMI != null : "fx:id=\"closeMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert addFeatureBtn != null : "fx:id=\"addFeatureBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert addJobBtn != null : "fx:id=\"addJobBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert addStateBtn != null : "fx:id=\"addStateBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert openFileMI != null : "fx:id=\"openFileMI\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert openFileBtn != null : "fx:id=\"openFileBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert addMachBtn != null : "fx:id=\"addMachBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert addActBtn != null : "fx:id=\"addActBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert machineList != null : "fx:id=\"machineList\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+		assert deleteBtn != null : "fx:id=\"deleteBtn\" was not injected: check your FXML file 'mfg-system-fxapp.fxml'.";
+
+	}
+
 
 	public TreeItem<MfgObject> makeMfgSystemTree(MfgSystem ms) {
 		TreeItem<MfgObject> item = new TreeItem<MfgObject>(ms);
@@ -272,6 +312,24 @@ public class MfgController {
 			item.getChildren().add(new TreeItem<MfgObject>(f));
 		}
 		return item;	
+	}
+	
+	private TreeItem<MfgObject> makeJobTree(MfgFeature f) {
+
+		return new TreeItem<MfgObject>(f);
+	}
+	
+	public TreeItem<MfgObject> findTreeItem (TreeItem<MfgObject> item, MfgObject o) {
+		
+
+		if (item.getValue() == o) return item;
+		if (item.isLeaf()) return null;
+		for (TreeItem<MfgObject> i : item.getChildren()) {
+			TreeItem<MfgObject> r = findTreeItem(i, o);
+			if (r != null) return r;
+		}
+		return null;
+		
 	}
 }
 

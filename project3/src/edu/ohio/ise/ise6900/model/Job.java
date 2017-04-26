@@ -93,7 +93,7 @@ public class Job extends MfgObject {
 
 	public Activity findActivity(Machine m, MfgFeature f) throws UnknownObjectException{
 		for (Activity a : activities) {
-			if (a.getMchine() ==m && a.getFeature() == f)
+			if (a.getMachine() ==m && a.getFeature() == f)
 				return a;
 		}
 		throw new UnknownObjectException("The activity with machine " + m.getName() + " and feature " + f.getName() + 
@@ -119,10 +119,10 @@ public class Job extends MfgObject {
 		public Collection<Shape> makeShapes() {
 			
 			Collection<Shape> shapes = new ArrayList<Shape>();
-			for (Activity a : activities) {
-			shapes.addAll(a.makeShapes());
-			Machine m = a.getMchine();
-			shapes.add(new Text(OFFSET-50, m.getY() + HEIGHT/2, m.getName()));
+			for (MfgFeature f : featureMap.values()) {
+			shapes.addAll(f.makeShapes());
+//			Machine m = a.getMachine();
+
 			}
 			return shapes;
 		}
