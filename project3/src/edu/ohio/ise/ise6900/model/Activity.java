@@ -4,10 +4,10 @@ package edu.ohio.ise.ise6900.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
+
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 public class Activity extends AbstractState {
 	
@@ -38,14 +38,16 @@ public class Activity extends AbstractState {
 		return feature;
 	}
 	
-	public Collection<Shape> makeShapes() {
-		Collection<Shape> shapes = new ArrayList<Shape>();
-		Shape r =makeShape();
+	public Shape makeShape() {
+//		Collection<Shape> shapes = new ArrayList<Shape>();
+//		Shape r =makeShape();
+		Rectangle r = new Rectangle(OFFSET + SCALE * getStartTime(),getMachine().getY(), SCALE * duration(),HEIGHT);
 		r.setStroke(job.getColor());
 		r.setStrokeType(StrokeType.INSIDE);
 		r.setStrokeWidth(3);
-		shapes.add(r);
-		return shapes;
+		r.setFill(state().getColor());
+//		shapes.add(r);
+		return r;
 	}
 	// change to push
 

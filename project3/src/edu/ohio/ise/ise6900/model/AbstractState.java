@@ -75,9 +75,19 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 		Collection<Shape> shapes = new ArrayList<Shape>();
 		Shape r =makeShape();
 		shapes.add(r);
+		shapes.addAll(makeXAxis());
 		return shapes;
 	}
 	
+	private Collection<Shape> makeXAxis() {
+		Collection<Shape> shapes = new ArrayList<Shape>();
+		Rectangle r = new Rectangle(0, 0, 500 * SCALE, 600);
+		r.setFill(null);
+		r.setStroke(Color.BLACK);
+		shapes.add(r);
+		return shapes;
+	}
+
 	protected Shape makeShape () {
 		Line line = new Line (OFFSET + SCALE * startTime,machine.getY(), OFFSET + SCALE * endTime,machine.getY());
 		line.setStrokeWidth(5.0);
@@ -90,18 +100,15 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 		Tooltip.install(r, t);
 		return r;
 	}
+	public static Collection<StateOption> getStateOptions() {
+		Collection<StateOption> coll = new ArrayList<StateOption> ();
+		coll.add(StateOption.BLOCKED);
+		coll.add(StateOption.BUSY);
+		coll.add(StateOption.IDLE);
+		coll.add(StateOption.DOWN);
+		return coll;
+		
+	}
 }
 
-enum StateOption { BUSY(Color.GREEN), IDLE(Color.YELLOW), DOWN(Color.RED), BLOCKED(Color.BLUE);
-	private final Color color;
 
-	StateOption(Color c) {
-		color = c;
-	}
-
-	public Color getColor () {
-		return color;
-
-	}
-
-}
