@@ -1,3 +1,4 @@
+
 package edu.ohio.ise.ise6900.model;
 
 public class MachineState extends AbstractState {
@@ -26,3 +27,4 @@ public class MachineState extends AbstractState {
 	}
 
 }
+

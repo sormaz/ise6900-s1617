@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<MfgSystemViewer prefHeight="400.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="304.0" prefWidth="1125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox alignment="TOP_RIGHT" prefHeight="65.0" prefWidth="1400.0">
+               <children>
+                  <MenuBar VBox.vgrow="NEVER">
+                    <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
+                        <MenuItem fx:id="openFileMI" mnemonicParsing="false" text="Open File" />
+                          <MenuItem fx:id="closeMI" mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Edit">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Delete" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="About" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                      <Button mnemonicParsing="false" text="Button" />
+                    </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="35.0" prefWidth="129.0" text="HBOX-left">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <PieChart prefHeight="150.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </center>
+         <right>
+            <TreeView prefHeight="190.0" prefWidth="328.0" BorderPane.alignment="CENTER" />
+         </right>
+         <left>
+            <ListView fx:id="machineList" prefHeight="150.0" prefWidth="338.0" BorderPane.alignment="CENTER" />
+         </left>
+      </BorderPane>
+   </children>
+</MfgSystemViewer>

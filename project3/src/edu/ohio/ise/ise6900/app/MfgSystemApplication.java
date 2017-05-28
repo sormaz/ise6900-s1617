@@ -2,26 +2,21 @@
 package edu.ohio.ise.ise6900.app;
 
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import edu.ohio.ise.ise6900.gui.*;
 import edu.ohio.ise.ise6900.model.*;
 
 public class MfgSystemApplication {
-	enum Command {
-		JOB, MACHINE, ACTIVITY, FEATURE, STATE, // to create objects
-		ACTIVITIES, FEATURES, STATES,           // to report collections for a given object
-		DELETE, PRINTOUT, 						// to delete or printout an individual object
-		JOBS, MACHINES, SYSTEM,					// to report system state and collections
-		RECTANGLE, TRIANGLE, 					// to make draw objects
-		EXIT, QUIT								// to exit the application
-	} 
 
-	static SortedMap<String, Command> commands;
+
+	public static SortedMap<String, Command> commands;
 	static final int OK = 0;
-	static String menu;
+	public static String menu;
 
 	static {
 		commands = new TreeMap<String, Command>();
@@ -39,6 +34,7 @@ public class MfgSystemApplication {
 
 		commands.put("delete", Command.DELETE);
 		commands.put("printout", Command.PRINTOUT);
+		commands.put("display", Command.DISPLAY);
 
 		commands.put("jobs", Command.JOBS);
 		commands.put("machines", Command.MACHINES);
@@ -97,7 +93,9 @@ public class MfgSystemApplication {
 					} catch (AlreadyMemberException ex) {
 						errStream.println(ex.getMessage());
 					} catch (NumberFormatException nfe) {
+
 						errStream.println("Batch size needs to be an integer!");
+
 					} catch (NoSuchElementException e) {
 						errStream.println("Not enough job parameters are specified");
 					}
@@ -123,7 +121,7 @@ public class MfgSystemApplication {
 					try {
 						String featureName = tokenizer.nextToken();
 						String jobName = tokenizer.nextToken();
-						Job job = Job.findJob (jobName);
+						Job job = ms.findJob (jobName);
 						job.addFeature(new MfgFeature(featureName));
 					} catch (AlreadyMemberException e) {
 						// TODO Auto-generated catch block
@@ -147,15 +145,20 @@ public class MfgSystemApplication {
 						Machine m = ms.findMachine(machName);
 						Job j = ms.findJob(jobName);
 						MfgFeature f = j.findFeature(featureName);
-						Activity a = new Activity(m, j, start, end);
-						j.addActivity (a);
+						Activity a = new Activity(m, j, f, start, end);
 						m.addState(a);
+						j.addActivity (a);
 					} catch (NumberFormatException e) {
 						errStream.println("Start time and End time need to be numbers!");
 					} catch (UnknownObjectException e) {
 						errStream.println(e.getMessage());
 					} catch (AlreadyMemberException e) {
+
 						errStream.println(e.getMessage());
+					} catch (IllegalArgumentException e) {
+
+						errStream.println(e.getMessage());
+
 					}
 					break;
 				}
@@ -172,11 +175,115 @@ public class MfgSystemApplication {
 					break;
 				}
 				case DELETE: {
-					errStream.println("The code for command " + commandObj + " is not implemented yet");
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							j.deleteActivity (a);
+							m.deleteState(a);							
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							job.deleteFeature(featureName);
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							ms.deleteJob (name);
+							System.out.println("Job " + name + " is deleted!" );
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								ms.deleteMachine(name);
+								System.out.println("Machine " + name + " is deleted!" );
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+						break;
+					}
+					default:
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+					}
 					break;
 				}
 				case PRINTOUT: {
-					errStream.println("The code for command " + commandObj + " is not implemented yet");
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							a.printout();						
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							MfgFeature f = job.findFeature(featureName);
+							f.printout();
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							Job j = ms.findJob (name);
+							j.printout();
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								Machine m = ms.findMachine(name);
+								m.printout();
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							}	
+						}
+						break;
+					}
+					default:
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+					}
 					break;
 				}
 				case SYSTEM: {
@@ -203,12 +310,13 @@ public class MfgSystemApplication {
 //					catch (AlreadyMemberException e) {
 //						errStream.println(e.getMessage());
 //					}
+
 					break;
 				}
 				case STATES: {
 					try {
 						String machineName = tokenizer.nextToken();
-						Machine m = ms.findMachine(machineName);
+						Machine m = ms.findMachine (machineName);
 						m.listStates();
 					} catch (UnknownObjectException e) {
 						errStream.println(e.getMessage());
@@ -217,6 +325,7 @@ public class MfgSystemApplication {
 					}
 					break;
 				}
+
 				case FEATURES: {
 					try {
 						String jobName = tokenizer.nextToken();
@@ -229,10 +338,32 @@ public class MfgSystemApplication {
 					}
 					break;
 				}
-				case RECTANGLE:
+
+				case RECTANGLE: {
+					try {
+					double x = Double.parseDouble(tokenizer.nextToken());
+					double y = Double.parseDouble(tokenizer.nextToken());
+					double w = Double.parseDouble(tokenizer.nextToken());
+					double h = Double.parseDouble(tokenizer.nextToken());
+					Rectangle r = new Rectangle(x,y,w,h);
+					}
+					catch (NoSuchElementException e) {
+						errStream.println("Job for features listing needs to be specified! ");
+					}
+					break;
+				}
 				case TRIANGLE:
 				{
-					errStream.println("Command " + commandObj + " is not implemented yet");
+					try {
+					double x = Double.parseDouble(tokenizer.nextToken());
+					double y = Double.parseDouble(tokenizer.nextToken());
+					double b = Double.parseDouble(tokenizer.nextToken());
+					double h = Double.parseDouble(tokenizer.nextToken());
+					Triangle r = new Triangle(x,y,b,h);
+					}
+					catch (NoSuchElementException e) {
+						errStream.println("Job for features listing needs to be specified! ");
+					}
 					break;
 				}
 				case JOBS: {
@@ -243,6 +374,81 @@ public class MfgSystemApplication {
 					ms.printMachines();
 					break;
 				}
+				
+				case DISPLAY: {
+					int numPars = tokenizer.countTokens();
+					switch (numPars) {
+					case 3: {
+						// delete activity, format delete m1, j1, f1
+						try {
+							String machName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							String featureName = tokenizer.nextToken();
+							Machine m = ms.findMachine(machName);
+							Job j = ms.findJob(jobName);
+							MfgFeature f = j.findFeature(featureName);
+							Activity a = j.findActivity(m, f);
+							a.display(null);						
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
+						}
+						break;
+					}
+					case 2: {
+						// delete feature, format delete f1 j1
+						try {
+							String featureName = tokenizer.nextToken();
+							String jobName = tokenizer.nextToken();
+							Job job = ms.findJob (jobName);
+							MfgFeature f = job.findFeature(featureName);
+							f.display(null);
+						} catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
+						}
+						break;
+					}
+					case 1: {
+						// delete machine or job, try job first
+						// format delete j1 or delete m1
+						String name = tokenizer.nextToken();
+						try {
+							Job j = ms.findJob (name);
+							j.display(null);
+						}
+						catch (UnknownObjectException e) {
+							errStream.println(e.getMessage());
+							try {
+								Machine m = ms.findMachine(name);
+								m.display(null);
+							} catch (UnknownObjectException e1) {
+								errStream.println(e1.getMessage());
+							} catch (InvocationTargetException ex) {
+								errStream.println("JavaFX application is already started. Can not call display again!");
+							}	
+						} catch (InvocationTargetException ex) {
+							errStream.println("JavaFX application is already started. Can not call display again!");
+						}
+						break;
+					}
+					case 0: {
+						try {
+							ms.display(null);
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						break;
+						}
+					default:
+					errStream.println("Command " + commandObj + " requires 1, 2, or 3 arguments");
+					}
+					break;
+				}
+				case QUIT:
 				case EXIT: {
 					// exit the program
 					return;
@@ -266,4 +472,6 @@ public class MfgSystemApplication {
 	}
 
 }
+
+ 
 

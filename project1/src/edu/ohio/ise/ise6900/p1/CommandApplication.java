@@ -51,6 +51,7 @@ public class CommandApplication {
 					String response = scanner.nextLine();
 					if (response.equalsIgnoreCase("Exit") || 
 							response.equalsIgnoreCase("Quit")) {
+						scanner.close();
 						break;
 					}
 					

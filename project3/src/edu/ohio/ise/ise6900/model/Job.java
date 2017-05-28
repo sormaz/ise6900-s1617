@@ -2,6 +2,12 @@ package edu.ohio.ise.ise6900.model;
 
 import java.util.*;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
+
 public class Job extends MfgObject {
 	
 	public static Map<String, Job> jobMap = new HashMap<String, Job> ();
@@ -27,6 +33,7 @@ public class Job extends MfgObject {
 			throw new AlreadyMemberException("Job " + this.getName() + " already contains feature " + f.getName());
 		}		
 		featureMap.put(f.getName(), f);
+		f.job = this;
 	}
 	public void addFeature(String featureName) throws AlreadyMemberException {
 		if (featureMap.keySet().contains(featureName)) {
@@ -69,7 +76,10 @@ public class Job extends MfgObject {
 
 	@Override
 	public void printout() {
-		throw new UnsupportedOperationException("Method printout() not implemented yet");
+		System.out.println(toString() 
+				+ "\n\tNumber of features " + featureMap.size() +
+				"\n\tNumber of activities " + activities.size());
+		
 		
 	}
 
@@ -80,4 +90,46 @@ public class Job extends MfgObject {
 		}
 		
 	}
-}
+
+	public Activity findActivity(Machine m, MfgFeature f) throws UnknownObjectException{
+		for (Activity a : activities) {
+			if (a.getMachine() ==m && a.getFeature() == f)
+				return a;
+		}
+		throw new UnknownObjectException("The activity with machine " + m.getName() + " and feature " + f.getName() + 
+										" does nto exist in job " + getName());
+	} 
+
+	public void deleteActivity(Activity a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void deleteFeature(String featureName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+		public Collection<MfgFeature> getFeatures() {
+			// TODO Auto-generated method stub
+			return featureMap.values();
+		}
+		
+		public Collection<Shape> makeShapes() {
+			
+			Collection<Shape> shapes = new ArrayList<Shape>();
+			for (MfgFeature f : featureMap.values()) {
+			shapes.addAll(f.makeShapes());
+//			Machine m = a.getMachine();
+
+			}
+			return shapes;
+		}
+
+		public Paint getColor() {
+			// TODO Auto-generated method stub
+			return Color.valueOf(getProperty(getClass().getName() + "." + getName(), "black"));
+		}
+	}
+

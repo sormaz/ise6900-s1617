@@ -2,6 +2,11 @@ package edu.ohio.ise.ise6900.model;
 
 import java.util.*;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
+
 public class Machine extends MfgObject {
 	
 	Collection<AbstractState> states;
@@ -17,16 +22,33 @@ public class Machine extends MfgObject {
 	
 	@Override
 	public void printout() {
-		throw new UnsupportedOperationException("Method printout() not implemented yet");
-		
+		System.out.println("MAchine " + getName() + "\n\tNumber of States " + states.size());	
 	}
 
 	public void listStates() {
 		System.out.println("States for machine " + getName());
-		for (AbstractState a : states) {
-			System.out.println("\t" + a.toString());
+		for (AbstractState s : states) {
+			System.out.println("\t" + s.toString());
 		}
+	}
+
+	public void deleteState(AbstractState a) {
+		// TODO Auto-generated method stub
+	}
+	
+	public Collection<Shape> makeShapes() {
 		
+		Collection<Shape> shapes = new ArrayList<Shape>();
+		for (AbstractState a : states) {
+		shapes.addAll(a.makeShapes());
+		shapes.add(new Text(OFFSET-50, getY() + HEIGHT/2, getName()));
+		}
+		return shapes;
+	}
+
+	public double getY() {
+		// TODO Auto-generated method stub
+		return Double.parseDouble(getProperty(getClass().getName() + "." + getName(), "100"));
 	}
 
 }
