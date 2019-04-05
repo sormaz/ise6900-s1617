@@ -580,6 +580,10 @@ public class MfgSystem extends MfgObject {
 		machines.clear();
 		
 	}
+	public int numJobs() {
+		// TODO Auto-generated method stub
+		return jobs.size();
+	}
 
 
 }
