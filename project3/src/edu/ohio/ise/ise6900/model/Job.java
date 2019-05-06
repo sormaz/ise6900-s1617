@@ -131,5 +131,14 @@ public class Job extends MfgObject {
 			// TODO Auto-generated method stub
 			return Color.valueOf(getProperty(getClass().getName() + "." + getName(), "black"));
 		}
+
+		public Collection<? extends Machine> getMachines() {
+			Collection <Machine> mach = new HashSet<Machine>();
+			for (Activity a : activities) {
+				mach.add(a.getMachine());
+			}
+			return mach;
+		}
+		
 	}
 
