@@ -71,7 +71,7 @@ public class MfgSystemFXApp2 extends Application {
 //		canvas.addTarget(ms);
 		canvas.makeShapes();
 //		root.getItems().add(canvas);
-		root.setLeft(canvas);
+		root.setCenter(canvas);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
