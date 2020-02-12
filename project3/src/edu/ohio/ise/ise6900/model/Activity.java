@@ -14,11 +14,15 @@ public class Activity extends AbstractState {
 	private Job job;
 	protected MfgFeature feature;
 
-	public Activity(Machine machine, Job job, MfgFeature f, double startTime, double endTime) {
-		super(machine, startTime, endTime);
+	public Activity(Machine machine, Job job, MfgFeature f, double duration, double startTime) {
+		super(machine, startTime, duration);
 		this.job = job;
 		feature = f;
 		f.activity = this;
+	}
+	
+	public Activity(Machine machine, Job job, MfgFeature f, double duration) {
+		this (machine, job, f, duration, 0.0);
 	}
 	
 	public String toString () {

@@ -17,22 +17,26 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 
 	private Machine machine;
 	private double startTime;
-	private double endTime;
+	private double 	duration;
 
-	public AbstractState(Machine machine, double startTime, double endTime) {
+	public AbstractState(Machine machine, double duration, double startTime) {
 		super("act");
 		// verify start end end times
-		if (startTime >= endTime) {
+		if (duration <= 0) {
 			throw new IllegalArgumentException(this.getClass().getName() + " with start time " + startTime + 
-					" larger then end time " + endTime + " is impossible");
+					" larger then end time " + duration + " is impossible");
 		}
 		this.machine = machine;
 		this.startTime = startTime;
-		this.endTime = endTime;
+		this.duration = duration;
+	}
+	
+	public AbstractState(Machine machine, double duration) {
+		this(machine, duration, 0.0);
 	}
 
 	public double duration () {
-		return endTime - startTime;
+		return duration;
 	}
 	public Machine getMachine () {
 		return machine;
@@ -41,13 +45,17 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	public double getStartTime() {
 		return startTime;
 	}
+	
+	public double getEndTime() {
+		return startTime + duration;
+	}
 
 	@Override
 	public int compareTo(AbstractState as) {
 		if (this.equals(as)) return 0;
 		int res = Double.compare(startTime, as.startTime);
 		if (res != 0) return res;
-		res = Double.compare(endTime, as.endTime);
+		res = Double.compare(duration, as.duration);
 		if (res != 0) return res;
 		return machine.getName().compareTo(as.machine.getName());
 	}
@@ -58,7 +66,7 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 		if (this.getClass().equals(o.getClass())) {
 			AbstractState as = (AbstractState) o;
 			return machine.equals(as.machine) &&
-					endTime == as.endTime &&
+					duration == as.duration &&
 					startTime == as.startTime;
 		}
 		return false;
@@ -89,7 +97,7 @@ public abstract class AbstractState extends MfgObject implements Comparable<Abst
 	}
 
 	protected Shape makeShape () {
-		Line line = new Line (OFFSET + SCALE * startTime,machine.getY(), OFFSET + SCALE * endTime,machine.getY());
+		Line line = new Line (OFFSET + SCALE * startTime,machine.getY(), OFFSET + SCALE * getEndTime(),machine.getY());
 		line.setStrokeWidth(5.0);
 		line.setStroke(state().getColor());
 		line.setStrokeLineCap(StrokeLineCap.BUTT);
