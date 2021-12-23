@@ -16,6 +16,7 @@ import javafx.scene.shape.Shape;
 public class MfgSystem extends MfgObject {
 
 	static Properties properties;
+	double Availablecapacity = 160;
 
 	Map<String,Job> jobs;
 	Map<String,Machine> machines;
@@ -36,10 +37,14 @@ public class MfgSystem extends MfgObject {
 	}
 
 
-	public MfgSystem(String n) {
+	public MfgSystem(String n, double capacity) {
 		super(n);
+		Availablecapacity = capacity;
 		jobs = new HashMap<String,Job>();
 		machines = new HashMap<String,Machine>();
+	}
+	public MfgSystem(String n) {
+		this (n,0.0);
 	}
 	public MfgSystem (File f) throws FileNotFoundException {
 		this(f.getName());
@@ -163,6 +168,22 @@ public class MfgSystem extends MfgObject {
 					continue;
 				}
 				switch (commandObj) {
+				
+				case CAPACITY: {
+					try {
+						double capacity = Double.parseDouble(tokenizer.nextToken());
+						Availablecapacity = capacity;						
+
+					} catch (NumberFormatException nfe) {
+
+						errStream.println(" Capacity should be numnber!");
+
+					} catch (NoSuchElementException e) {
+						errStream.println("Capacity Value is not specified");
+					}
+					break;					
+				}
+				
 				case JOB: {
 					// create job
 					try {
@@ -219,12 +240,24 @@ public class MfgSystem extends MfgObject {
 						String machName = tokenizer.nextToken();
 						String jobName = tokenizer.nextToken();
 						String featureName = tokenizer.nextToken();
-						double start = Double.parseDouble(tokenizer.nextToken());
-						double end = Double.parseDouble(tokenizer.nextToken());
+						double duration = Double.parseDouble(tokenizer.nextToken());
+						
 						Machine m = findMachine(machName);
 						Job j = findJob(jobName);
 						MfgFeature f = j.findFeature(featureName);
-						Activity a = new Activity(m, j, f, start, end);
+						double start = 0.0;
+						Activity a = null;
+						try {
+							start = Double.parseDouble(tokenizer.nextToken());
+							a = new Activity(m, j, f, duration, start);
+
+						} catch (Exception e) {
+							// startTime not given, use different constructor
+							System.err.println("message" + e.getMessage() + " is ignored, start time not given!");
+							a = new Activity(m, j, f, duration);
+						//	e.printStackTrace();
+						}
+						
 						m.addState(a);
 						j.addActivity (a);
 					} catch (NumberFormatException e) {

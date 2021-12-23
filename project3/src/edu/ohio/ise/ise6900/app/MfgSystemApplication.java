@@ -20,6 +20,7 @@ public class MfgSystemApplication {
 
 	static {
 		commands = new TreeMap<String, Command>();
+		commands.put("capacity", Command.CAPACITY);	
 		commands.put("job", Command.JOB);
 //		commands.put("ish", Command.JOB);
 //		commands.put("zadatak", Command.JOB);
